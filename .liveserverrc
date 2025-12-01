@@ -1,0 +1,10 @@
+{
+  "host": "localhost",
+  "port": 5500,
+  "proxy": [
+    {
+      "source": "/api",
+      "target": "http://localhost:5000"
+    }
+  ]
+}

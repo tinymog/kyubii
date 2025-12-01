@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kyubii - Loja (Com Steam API)</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/principal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-esq">
+      <img src="/img/logoBranco.png" alt="Logo Kyubii" class="logo">
+    </div>
+
+    <nav class="nav-centro">
+      <a href="/pages/principal.html"> HOME</a>
+      <a href="/pages/loja.html">LOJA</a>
+      <a href="/pages/biblioteca.html">BIBLIOTECA</a>
+      <a href="/pages/comunidades.html">COMUNIDADES</a>
+      <a href="/pages/noticias.html">NOTÍCIAS</a>
+    </nav>
+
+    <div class="nav-dir">
+      <div class="busca">
+        <input type="text" placeholder="Buscar...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+
+      <a href="/pages/carrinho.html" class="ic-carrinho">
+        <i class="fa-solid fa-shopping-cart"></i>
+        <span class="carrinho-badge" id="cartBadge">0</span>
+      </a>
+
+      <a href="/pages/perfil.html" class="ic-usr">
+        <i class="fa-solid fa-user"></i>
+      </a>
+      <i class="fa-solid fa-bars ic-menu"></i>
+    </div>
+  </header>
+
+  <main class="conteudo">
+    <h1>PRECINHOS DA SEMANA</h1>
+
+    <div class="carousel-container">
+      <button class="carousel-btn prev"><i class="fa-solid fa-chevron-left"></i></button>
+
+      <div class="carousel" id="carousel">
+        <div class="loading-spinner">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <p>Carregando jogos...</p>
+        </div>
+      </div>
+
+      <button class="carousel-btn next"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/pages/sobre.html">Sobre</a> | <a
+      href="https://www.instagram.com/kyubiigb?igsh=MTV2bXZxdmtsdjAxNw==">Contato</a>
+  </footer>
+
+  <script src="/js/principal.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

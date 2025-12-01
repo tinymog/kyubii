@@ -1,0 +1,261 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #000000;
+  background-image: url('https://www.transparenttextures.com/patterns/black-felt.png');
+  color: #fff;
+  overflow-x: hidden;
+}
+
+.conteudo {
+  padding-top: 110px;
+  padding-bottom: 60px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.conteudo h1 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  text-shadow: 0 0 10px #a64eff;
+  letter-spacing: 2px;
+}
+
+.produtos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.produto-card {
+  background: transparent;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid rgba(124, 61, 245, 0.3);
+  transition: all 0.3s ease;
+}
+
+.produto-card:hover {
+  border-color: #7a3df5;
+  box-shadow: 0 0 20px rgba(124, 61, 245, 0.4);
+  transform: translateY(-5px);
+}
+
+.produto-imagem {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #7a3df5, #4800bd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.produto-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.produto-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.produto-info h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.preco {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #7a3df5;
+  margin-bottom: 10px;
+}
+
+.descricao {
+  font-size: 0.85rem;
+  color: #ccc;
+  line-height: 1.4;
+  margin-bottom: 15px;
+  text-align: justify;
+  flex: 1;
+}
+
+.btn-comprar {
+  background: linear-gradient(135deg, #7a3df5, #a64eff);
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-comprar:hover {
+  box-shadow: 0 0 15px rgba(124, 61, 245, 0.6);
+  transform: scale(1.05);
+}
+
+.btn-comprar:active {
+  transform: scale(0.98);
+}
+
+/* FOOTER */
+footer {
+  width: 100%;
+  text-align: left;
+  padding: 10px 30px;
+  font-size: 0.9rem;
+  color: #a64eff;
+  position: fixed;
+  bottom: 0;
+  background: transparent;
+}
+
+footer a {
+  color: #a64eff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #c699ff;
+}
+
+@media (max-width: 1024px) {
+  .produtos-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .produto-card {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .produto-imagem {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .conteudo {
+    padding-top: 90px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .conteudo h1 {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+  }
+
+  .produtos-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .produto-card {
+    flex-direction: row;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .produto-imagem {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+  }
+
+  .produto-info h3 {
+    font-size: 1rem;
+  }
+
+  .preco {
+    font-size: 1.1rem;
+  }
+
+  .descricao {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+
+  .btn-comprar {
+    padding: 8px 20px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .conteudo {
+    padding-top: 80px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .conteudo h1 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .produtos-container {
+    gap: 10px;
+  }
+
+  .produto-card {
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .produto-imagem {
+    width: 100px;
+    height: 100px;
+  }
+
+  .produto-info h3 {
+    font-size: 0.9rem;
+  }
+
+  .preco {
+    font-size: 1rem;
+  }
+
+  .descricao {
+    font-size: 0.75rem;
+    margin-bottom: 8px;
+  }
+
+  .btn-comprar {
+    padding: 6px 15px;
+    font-size: 0.8rem;
+  }
+
+  footer {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+}

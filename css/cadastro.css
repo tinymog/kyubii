@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background-color: #000;
+    background-image: url('https://www.transparenttextures.com/patterns/black-felt.png');
+    background-repeat: repeat;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    padding: 20px 40px;
+    flex-wrap: wrap;
+}
+
+.logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.logo-title {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.logo-subtitle {
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #ddd;
+    margin-top: 15px;
+}
+
+.form-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 320px;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.input {
+    width: 100%;
+    background-color: #e6e6e6;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 45px;
+    font-size: 0.95rem;
+    color: #333;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+}
+
+.input::placeholder {
+    color: #777;
+}
+
+.input:focus {
+    box-shadow: 0 0 8px #a64eff;
+}
+
+.icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    user-select: none;
+}
+
+.eye-icon:hover {
+    color: #a64eff;
+}
+
+.button-login {
+    width: 100%;
+    background: linear-gradient(90deg, #a64eff, #7a3df5);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-login:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(166, 78, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 40px;
+        padding: 20px;
+    }
+
+    .form-area {
+        width: 90%;
+        align-items: center;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    .logo-title {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('https://www.transparenttextures.com/patterns/black-felt.png');
+    background-repeat: repeat;
+}
+
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    padding: 20px 40px;
+    flex-wrap: wrap;
+}
+
+
+.logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.logo-title {
+    font-size: 2rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.logo-subtitle {
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #ddd;
+}
+
+
+.form-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: rgb(0, 0, 0);
+    border-radius: 20px;
+    padding: 30px;
+    min-width: 340px;
+}
+
+.form-area h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+    text-align: right;
+}
+
+
+.input-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.input, .textarea {
+    background-color: #e6e6e6;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    color: #333;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.input {
+    flex: 1;
+}
+
+.textarea {
+    width: 100%;
+    height: 120px;
+    margin-top: 10px;
+    resize: none;
+}
+
+
+.input:focus, .textarea:focus {
+    box-shadow: 0 0 8px #a64eff;
+}
+
+
+.button-send {
+    width: 100%;
+    background: linear-gradient(90deg, #4a1381, #2b0c6d);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px;
+    font-size: 1rem;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-send:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .form-area {
+        width: 90%;
+        align-items: center;
+    }
+
+    .form-area h1 {
+        text-align: center;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+}

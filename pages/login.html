@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Kyubii</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+
+<div class="container-auth">
+    <!-- LOGO AREA -->
+    <div class="logo-area">
+        <div class="logo-title">KYUBII</div>
+        <img src="../img/logoBranco.png" alt="Logo" class="logo">
+        <div class="logo-subtitle">GAME LIBRARY</div>
+    </div>
+
+    <!-- FORM AREA -->
+    <div class="form-area">
+        <h1>LOGIN</h1>
+
+        <form id="formLogin">
+            <!-- Email -->
+            <div class="input-group">
+                <i class="fa-solid fa-envelope icon"></i>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="input" 
+                    placeholder="Seu e-mail"
+                    required
+                >
+            </div>
+
+            <!-- Senha -->
+            <div class="input-group">
+                <i class="fa-solid fa-lock icon"></i>
+                <input 
+                    type="password" 
+                    id="senha" 
+                    class="input" 
+                    placeholder="Senha"
+                    required
+                >
+                <i class="fa-solid fa-eye eye-icon" id="toggleSenha"></i>
+            </div>
+
+            <!-- Botão -->
+            <button type="submit" class="button-login">Entrar</button>
+        </form>
+
+        <!-- Link Cadastro -->
+        <div class="links">
+            <p>Não tem conta? <a href="cadastro.html">Cadastre-se aqui</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="../js/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('formLogin');
+    const toggleSenha = document.getElementById('toggleSenha');
+    const inputSenha = document.getElementById('senha');
+
+    // Toggle senha
+    if (toggleSenha && inputSenha) {
+        toggleSenha.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (inputSenha.type === 'password') {
+                inputSenha.type = 'text';
+                toggleSenha.classList.remove('fa-eye');
+                toggleSenha.classList.add('fa-eye-slash');
+            } else {
+                inputSenha.type = 'password';
+                toggleSenha.classList.remove('fa-eye-slash');
+                toggleSenha.classList.add('fa-eye');
+            }
+        });
+    }
+
+    // Form submit
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const senha = document.getElementById('senha').value;
+
+            if (!email || !senha) {
+                alert('⚠️ Preencha todos os campos!');
+                return;
+            }
+
+            const resultado = auth.fazerLogin(email, senha);
+            
+            if (resultado.sucesso) {
+                alert('✅ Login realizado com sucesso!');
+                window.location.href = '../pages/perfil.html';
+            } else {
+                alert('❌ ' + resultado.erro);
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>

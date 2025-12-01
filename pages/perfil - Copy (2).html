@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="../../css/perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <img class="logo" src="https://via.placeholder.com/45" alt="Logo">
+        <div class="nav-centro">
+            <a href="index.html">HOME</a>
+            <a href="loja.html">LOJA</a>
+            <a href="biblioteca.html">BIBLIOTECA</a>
+            <a href="comunidades.html">COMUNIDADES</a>
+            <a href="noticias.html">NOTÍCIAS</a>
+        </div>
+        <div class="nav-dir">
+            <div class="busca">
+                <input type="text" placeholder="Buscar...">
+                <i class="fas fa-search"></i>
+            </div>
+            <a href="#" class="ic-carrinho"><i class="fas fa-shopping-cart"></i><span class="carrinho-badge">0</span></a>
+            <a href="#" class="ic-user"><i class="fas fa-user"></i></a>
+            <a href="#" class="ic-menu"><i class="fas fa-bars"></i></a>
+        </div>
+    </nav>
+
+    <!-- PERFIL HEADER -->
+    <div class="perfil-header">
+        <div class="perfil-cover" id="perfil-cover"></div>
+        <button class="btn-editar-banner">🖼️ Editar Banner</button>
+    </div>
+
+    <!-- CARD PERFIL -->
+    <div class="card-perfil">
+        <div class="info-perfil">
+            <img class="avatar" id="avatar" src="https://via.placeholder.com/150" alt="Avatar">
+            <div class="dados-perfil">
+                <h1 id="nomeUsuario">Usuário</h1>
+                <p id="emailUsuario">Email: N/A</p>
+                <p id="bioUsuario">Bio do usuário</p>
+            </div>
+            <div class="botoes-perfil">
+                <button class="btn-editar">✏️ Editar Perfil</button>
+                <button class="btn-logout">🚪 Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABAS -->
+    <div class="abas-container">
+        <div class="abas">
+            <button class="aba-btn aba-ativa" data-aba="atividades">📋 Atividades</button>
+            <button class="aba-btn" data-aba="comunidades">👥 Comunidades</button>
+            <button class="aba-btn" data-aba="amigos">👫 Amigos</button>
+            <button class="aba-btn" data-aba="conexoes">🔗 Conexões</button>
+            <button class="aba-btn" data-aba="jogos">🎮 Jogos</button>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO DAS ABAS -->
+    <div id="atividades" class="aba-conteudo aba-ativa-conteudo">
+        <p>Conteúdo de Atividades</p>
+    </div>
+    <div id="comunidades" class="aba-conteudo"></div>
+    <div id="amigos" class="aba-conteudo"></div>
+    <div id="conexoes" class="aba-conteudo"></div>
+    <div id="jogos" class="aba-conteudo"></div>
+
+    <!-- MODAL EDITAR BANNER -->
+    <div class="modal" id="modalBanner">
+        <div class="modal-conteudo">
+            <button class="btn-fechar-modal">✕</button>
+            <h2>Editar Banner</h2>
+            
+            <div class="banner-opcoes">
+                <div class="opcao-gradiente">
+                    <h3>Escolher Cor</h3>
+                    <div class="cores-banner">
+                        <input type="radio" name="gradiente" value="linear-gradient(135deg, #1d064d, #4800bd)" id="grad1">
+                        <label for="grad1" style="background: linear-gradient(135deg, #1d064d, #4800bd);">Roxo</label>
+
+                        <input type="radio" name="gradiente" value="linear-gradient(135deg, #2d0080, #6a00ff)" id="grad2">
+                        <label for="grad2" style="background: linear-gradient(135deg, #2d0080, #6a00ff);">Roxo+</label>
+
+                        <input type="radio" name="gradiente" value="linear-gradient(135deg, #000000, #ff00ff)" id="grad3">
+                        <label for="grad3" style="background: linear-gradient(135deg, #000000, #ff00ff);">Magenta</label>
+
+                        <input type="radio" name="gradiente" value="linear-gradient(135deg, #004080, #0080ff)" id="grad4">
+                        <label for="grad4" style="background: linear-gradient(135deg, #004080, #0080ff);">Azul</label>
+                    </div>
+                </div>
+
+                <div class="opcao-url">
+                    <h3>ou URL da Imagem</h3>
+                    <input type="text" id="urlBanner" placeholder="https://exemplo.com/imagem.jpg">
+                </div>
+            </div>
+
+            <button class="btn-salvar-banner">Salvar Banner</button>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR PERFIL -->
+    <div class="modal" id="modalEditar">
+        <div class="modal-conteudo">
+            <button class="btn-fechar-modal">✕</button>
+            <h2>Editar Perfil</h2>
+            
+            <div class="form-grupo">
+                <label for="inputNome">Nome:</label>
+                <input type="text" id="inputNome" placeholder="Seu nome">
+            </div>
+
+            <div class="form-grupo">
+                <label for="inputBio">Bio:</label>
+                <textarea id="inputBio" placeholder="Sua bio" rows="3"></textarea>
+            </div>
+
+            <div class="form-grupo">
+                <label for="inputAvatar">Avatar:</label>
+                <input type="file" id="inputAvatar" accept="image/*">
+                <img id="previewAvatar" src="https://via.placeholder.com/120" alt="Preview">
+            </div>
+
+            <button class="btn-salvar-editar">Salvar Alterações</button>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/steam-sync.js"></script>
+    <script src="/js/discord-sync.js"></script>
+    <script src="/js/perfil.js"></script>
+</body>
+</html>

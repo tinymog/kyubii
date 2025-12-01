@@ -1,0 +1,364 @@
+/* ================ RESET ================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #000000;
+  background-image: url('https://www.transparenttextures.com/patterns/black-felt.png');
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ================ NAVBAR ================ */
+
+
+/* ================ MAIN CONTENT ================ */
+.conteudo {
+  padding-top: 110px;
+  padding-bottom: 60px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+/* ================ HERO SECTION ================ */
+.sobre-hero {
+  text-align: center;
+  padding: 60px 40px;
+  background: rgba(124, 61, 245, 0.08);
+  border-radius: 20px;
+  border: 2px solid rgba(124, 61, 245, 0.3);
+  margin-bottom: 60px;
+}
+
+.sobre-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 30px;
+  text-shadow: 0 0 20px #a64eff;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.sobre-descricao {
+  max-width: 800px;
+  margin: 0 auto 30px;
+}
+
+.sobre-descricao p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #ddd;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.btn-autores {
+  background: linear-gradient(135deg, #7a3df5, #a64eff);
+  color: #fff;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 20px rgba(124, 61, 245, 0.4);
+}
+
+.btn-autores:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(124, 61, 245, 0.6);
+}
+
+/* ================ AUTORES SECTION ================ */
+.autores {
+  margin-bottom: 80px;
+}
+
+.autores h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 50px;
+  text-shadow: 0 0 15px #a64eff;
+  letter-spacing: 1px;
+}
+
+.autores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.autor-card {
+  background: #1a0033;
+  border: 2px solid #7a3df5;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(124, 61, 245, 0.3);
+}
+
+.autor-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 25px rgba(124, 61, 245, 0.5);
+  border-color: #a64eff;
+}
+
+.autor-avatar {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #7a3df5, #a64eff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 3rem;
+  color: #fff;
+}
+
+.autor-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.cargo {
+  color: #7a3df5;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+
+.descricao {
+  color: #bbb;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.autor-redes {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.autor-redes a {
+  color: #7a3df5;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+}
+
+.autor-redes a:hover {
+  color: #ff89d6;
+  transform: scale(1.2);
+}
+
+/* ================ TECNOLOGIAS SECTION ================ */
+.tecnologias {
+  margin-bottom: 80px;
+}
+
+.tecnologias h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 50px;
+  text-shadow: 0 0 15px #a64eff;
+  letter-spacing: 1px;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 25px;
+}
+
+.tech-card {
+  background: linear-gradient(135deg, rgba(124, 61, 245, 0.2), rgba(166, 78, 255, 0.2));
+  border: 2px solid #7a3df5;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.tech-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(124, 61, 245, 0.5);
+  border-color: #a64eff;
+}
+
+.tech-card i {
+  font-size: 2.5rem;
+  color: #7a3df5;
+  margin-bottom: 15px;
+}
+
+.tech-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.tech-card p {
+  color: #bbb;
+  font-size: 0.85rem;
+}
+
+/* ================ INFO SECTION ================ */
+.info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 60px;
+}
+
+.info-box {
+  background: #1a0033;
+  border: 2px solid #7a3df5;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.info-box:hover {
+  box-shadow: 0 0 20px rgba(124, 61, 245, 0.5);
+  transform: scale(1.05);
+}
+
+.info-box h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #7a3df5;
+}
+
+.info-box p {
+  color: #ddd;
+  font-size: 1rem;
+}
+
+/* FOOTER */
+footer {
+  width: 100%;
+  text-align: left;
+  padding: 10px 30px;
+  font-size: 0.9rem;
+  color: #a64eff;
+  position: fixed;
+  bottom: 0;
+  background: transparent;
+}
+
+footer a {
+  color: #a64eff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #c699ff;
+}
+
+/* ================ RESPONSIVO ================ */
+@media (max-width: 1024px) {
+  .sobre-hero {
+    padding: 40px 20px;
+  }
+
+  .sobre-hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .sobre-descricao p {
+    font-size: 1rem;
+  }
+
+  .autores h2,
+  .tecnologias h2 {
+    font-size: 2rem;
+  }
+
+  .autores-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+
+
+  .conteudo {
+    padding-top: 90px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .sobre-hero {
+    margin-bottom: 40px;
+  }
+
+  .sobre-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .sobre-descricao p {
+    font-size: 0.95rem;
+  }
+
+  .btn-autores {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+
+  .autores-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .info {
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+
+
+  .conteudo {
+    padding-top: 80px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .sobre-hero h1 {
+    font-size: 1.4rem;
+  }
+
+  .sobre-descricao p {
+    font-size: 0.9rem;
+  }
+
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .autor-card {
+    padding: 20px;
+  }
+
+  .info-box {
+    padding: 20px;
+  }
+}

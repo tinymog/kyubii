@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Kyubii</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", Arial, sans-serif;
+            background-color: #000;
+            background-image: url('https://www.transparenttextures.com/patterns/black-felt.png');
+            background-repeat: repeat;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container-auth {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+            padding: 20px 40px;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* LOGO AREA */
+        .logo-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .logo-title {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .logo-subtitle {
+            font-size: 1rem;
+            letter-spacing: 1px;
+            color: #ddd;
+            margin-top: 10px;
+        }
+
+        /* FORM AREA */
+        .form-area {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 320px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(124, 61, 245, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .form-area h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            width: 100%;
+            text-align: center;
+            color: #c699ff;
+        }
+
+        /* INPUT GROUP */
+        .input-group {
+            position: relative;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaa;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7a3df5;
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a64eff;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 2;
+        }
+
+        .eye-icon:hover {
+            color: #c699ff;
+        }
+
+        .input {
+            width: 100%;
+            background-color: #e6e6e6;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 45px;
+            font-size: 0.95rem;
+            color: #333;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+            font-family: "Poppins", Arial, sans-serif;
+        }
+
+        .input::placeholder {
+            color: #777;
+        }
+
+        .input:focus {
+            box-shadow: 0 0 8px #a64eff;
+        }
+
+        /* BUTTON */
+        .button-login {
+            width: 100%;
+            background: linear-gradient(135deg, #7a3df5, #a64eff);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(124, 61, 245, 0.3);
+        }
+
+        .button-login:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(124, 61, 245, 0.5);
+        }
+
+        .button-login:active {
+            transform: scale(0.98);
+        }
+
+        /* LINKS */
+        .links {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links p {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .links a {
+            color: #a64eff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .links a:hover {
+            color: #c699ff;
+            text-decoration: underline;
+        }
+
+        /* ABAS */
+        .abas {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .aba-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+        }
+
+        .aba-btn.ativa {
+            color: #c699ff;
+            border-bottom: 2px solid #a64eff;
+        }
+
+        .aba-btn:hover {
+            color: #c699ff;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container-auth {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .form-area {
+                width: 90%;
+                max-width: 320px;
+            }
+
+            .logo {
+                width: 100px;
+            }
+
+            .logo-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container-auth {
+                padding: 10px;
+            }
+
+            .form-area {
+                padding: 20px;
+            }
+
+            .logo-area {
+                display: none;
+            }
+        }
+
+        .erro {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            padding: 10px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .sucesso {
+            color: #5ffe6f;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            padding: 10px;
+            background: rgba(95, 254, 111, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #5ffe6f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-auth">
+    <!-- LOGO AREA -->
+    <div class="logo-area">
+        <div class="logo-title">KYUBII</div>
+        <img src="/img/logoBranco.png" alt="Logo" class="logo" style="width: 120px; height: auto;">
+        <div class="logo-subtitle">GAME LIBRARY</div>
+    </div>
+
+    <!-- FORM AREA -->
+    <div class="form-area">
+        <!-- ABAS -->
+        <div class="abas">
+            <button class="aba-btn ativa" id="abaBotaoLogin">LOGIN</button>
+            <span style="color: #555;">|</span>
+            <button class="aba-btn" id="abaBotaoCadastro">CADASTRO</button>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="abaLogin" style="width: 100%;">
+            <h1>LOGIN</h1>
+            <form id="formLogin" style="width: 100%;">
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope icon"></i>
+                    <input 
+                        type="email" 
+                        id="loginEmail" 
+                        class="input" 
+                        placeholder="Seu e-mail"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock icon"></i>
+                    <input 
+                        type="password" 
+                        id="loginSenha" 
+                        class="input" 
+                        placeholder="Senha"
+                        required
+                    >
+                    <i class="fa-solid fa-eye eye-icon" id="toggleLoginSenha"></i>
+                </div>
+
+                <div id="mensagemLogin"></div>
+
+                <button type="submit" class="button-login">Entrar</button>
+            </form>
+        </div>
+
+        <!-- CADASTRO -->
+        <div id="abaCadastro" style="width: 100%; display: none;">
+            <h1>CADASTRO</h1>
+            <form id="formCadastro" style="width: 100%;">
+                <div class="input-group">
+                    <i class="fa-solid fa-user icon"></i>
+                    <input 
+                        type="text" 
+                        id="cadastroNome" 
+                        class="input" 
+                        placeholder="Seu nome"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope icon"></i>
+                    <input 
+                        type="email" 
+                        id="cadastroEmail" 
+                        class="input" 
+                        placeholder="Seu e-mail"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock icon"></i>
+                    <input 
+                        type="password" 
+                        id="cadastroSenha" 
+                        class="input" 
+                        placeholder="Senha (mín. 6 caracteres)"
+                        required
+                    >
+                    <i class="fa-solid fa-eye eye-icon" id="toggleCadastroSenha"></i>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock icon"></i>
+                    <input 
+                        type="password" 
+                        id="cadastroConfirmaSenha" 
+                        class="input" 
+                        placeholder="Confirmar senha"
+                        required
+                    >
+                    <i class="fa-solid fa-eye eye-icon" id="toggleConfirmaSenha"></i>
+                </div>
+
+                <div id="mensagemCadastro"></div>
+
+                <button type="submit" class="button-login">Criar Conta</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// ================ SISTEMA DE AUTENTICAÇÃO ================
+
+class AuthLocal {
+  constructor() {
+    this.usuarioAtual = localStorage.getItem('usuarioLogado');
+    this.init();
+  }
+
+  init() {
+    console.log('🔐 Inicializando sistema de autenticação');
+  }
+
+  fazerLogin(email, senha) {
+    try {
+      email = email.toLowerCase().trim();
+      const usuarios = this.carregarUsuarios();
+      
+      const usuario = Object.values(usuarios).find(u => u.email === email);
+      
+      if (!usuario) {
+        return { sucesso: false, erro: 'Usuário não encontrado' };
+      }
+
+      if (!this.verificarSenha(senha, usuario.senha)) {
+        return { sucesso: false, erro: 'Senha incorreta' };
+      }
+
+      const usuarioSessao = {
+        id: usuario.id,
+        email: usuario.email,
+        nome: usuario.nome,
+        nivel: usuario.nivel,
+        avatar: usuario.avatar,
+        conexoes: usuario.conexoes,
+        comunidades: usuario.comunidades,
+        amigos: usuario.amigos,
+        bio: usuario.bio
+      };
+
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuarioSessao));
+      localStorage.setItem('emailAtivo', email);
+      
+      console.log('✅ Login realizado:', usuario.nome);
+      return { sucesso: true, usuario: usuarioSessao };
+
+    } catch (erro) {
+      console.error('❌ Erro no login:', erro);
+      return { sucesso: false, erro: erro.message };
+    }
+  }
+
+  fazerCadastro(nome, email, senha) {
+    try {
+      email = email.toLowerCase().trim();
+      const usuarios = this.carregarUsuarios();
+
+      const existe = Object.values(usuarios).find(u => u.email === email);
+      if (existe) {
+        return { sucesso: false, erro: 'Email já registrado' };
+      }
+
+      const novoUsuario = {
+        id: 'user_' + Date.now(),
+        nome: nome.trim(),
+        email: email,
+        senha: this.hashSenha(senha),
+        nivel: 1,
+        experiencia: 0,
+        avatar: this.gerarAvatarUrl(nome),
+        dataCriacao: new Date().toISOString(),
+        ultimoAcesso: new Date().toISOString(),
+        conexoes: {
+          steam: null,
+          discord: null,
+          spotify: null
+        },
+        comunidades: [],
+        amigos: [],
+        bio: '',
+        jogosOtimistas: [],
+        atividades: []
+      };
+
+      usuarios[novoUsuario.id] = novoUsuario;
+      this.salvarUsuarios(usuarios);
+
+      console.log('✅ Cadastro realizado:', nome);
+      return { sucesso: true, usuario: novoUsuario };
+
+    } catch (erro) {
+      console.error('❌ Erro no cadastro:', erro);
+      return { sucesso: false, erro: erro.message };
+    }
+  }
+
+  hashSenha(senha) {
+    let hash = 0;
+    for (let i = 0; i < senha.length; i++) {
+      const char = senha.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(36);
+  }
+
+  verificarSenha(senha, hashArmazenado) {
+    return this.hashSenha(senha) === hashArmazenado;
+  }
+
+  gerarAvatarUrl(nome) {
+    const letra = nome.charAt(0).toUpperCase();
+    const cores = ['7a3df5', 'a64eff', 'c699ff', '4800bd'];
+    const cor = cores[Math.floor(Math.random() * cores.length)];
+    return `https://ui-avatars.com/api/?name=${letra}&background=${cor}&color=fff&bold=true`;
+  }
+
+  carregarUsuarios() {
+    try {
+      const dados = localStorage.getItem('usuarios_dados');
+      return dados ? JSON.parse(dados) : {};
+    } catch (erro) {
+      console.error('Erro ao carregar usuários:', erro);
+      return {};
+    }
+  }
+
+  salvarUsuarios(usuarios) {
+    localStorage.setItem('usuarios_dados', JSON.stringify(usuarios));
+    console.log('💾 Usuários salvos');
+  }
+
+  getUsuarioLogado() {
+    const dados = localStorage.getItem('usuarioLogado');
+    return dados ? JSON.parse(dados) : null;
+  }
+}
+
+const auth = new AuthLocal();
+
+// ================ EVENTOS DE INTERFACE ================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const abaBotaoLogin = document.getElementById('abaBotaoLogin');
+    const abaBotaoCadastro = document.getElementById('abaBotaoCadastro');
+    const abaLogin = document.getElementById('abaLogin');
+    const abaCadastro = document.getElementById('abaCadastro');
+    const formLogin = document.getElementById('formLogin');
+    const formCadastro = document.getElementById('formCadastro');
+
+    // Toggle abas
+    abaBotaoLogin.addEventListener('click', () => {
+        abaLogin.style.display = 'block';
+        abaCadastro.style.display = 'none';
+        abaBotaoLogin.classList.add('ativa');
+        abaBotaoCadastro.classList.remove('ativa');
+    });
+
+    abaBotaoCadastro.addEventListener('click', () => {
+        abaLogin.style.display = 'none';
+        abaCadastro.style.display = 'block';
+        abaBotaoLogin.classList.remove('ativa');
+        abaBotaoCadastro.classList.add('ativa');
+    });
+
+    // Toggle senhas
+    const toggleLoginSenha = document.getElementById('toggleLoginSenha');
+    const inputLoginSenha = document.getElementById('loginSenha');
+    
+    if (toggleLoginSenha && inputLoginSenha) {
+        toggleLoginSenha.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (inputLoginSenha.type === 'password') {
+                inputLoginSenha.type = 'text';
+                toggleLoginSenha.classList.remove('fa-eye');
+                toggleLoginSenha.classList.add('fa-eye-slash');
+            } else {
+                inputLoginSenha.type = 'password';
+                toggleLoginSenha.classList.remove('fa-eye-slash');
+                toggleLoginSenha.classList.add('fa-eye');
+            }
+        });
+    }
+
+    const toggleCadastroSenha = document.getElementById('toggleCadastroSenha');
+    const inputCadastroSenha = document.getElementById('cadastroSenha');
+    
+    if (toggleCadastroSenha && inputCadastroSenha) {
+        toggleCadastroSenha.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (inputCadastroSenha.type === 'password') {
+                inputCadastroSenha.type = 'text';
+                toggleCadastroSenha.classList.remove('fa-eye');
+                toggleCadastroSenha.classList.add('fa-eye-slash');
+            } else {
+                inputCadastroSenha.type = 'password';
+                toggleCadastroSenha.classList.remove('fa-eye-slash');
+                toggleCadastroSenha.classList.add('fa-eye');
+            }
+        });
+    }
+
+    const toggleConfirmaSenha = document.getElementById('toggleConfirmaSenha');
+    const inputConfirmaSenha = document.getElementById('cadastroConfirmaSenha');
+    
+    if (toggleConfirmaSenha && inputConfirmaSenha) {
+        toggleConfirmaSenha.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (inputConfirmaSenha.type === 'password') {
+                inputConfirmaSenha.type = 'text';
+                toggleConfirmaSenha.classList.remove('fa-eye');
+                toggleConfirmaSenha.classList.add('fa-eye-slash');
+            } else {
+                inputConfirmaSenha.type = 'password';
+                toggleConfirmaSenha.classList.remove('fa-eye-slash');
+                toggleConfirmaSenha.classList.add('fa-eye');
+            }
+        });
+    }
+
+    // Form Login
+    if (formLogin) {
+        formLogin.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const senha = document.getElementById('loginSenha').value;
+            const msg = document.getElementById('mensagemLogin');
+
+            if (!email || !senha) {
+                msg.innerHTML = '<div class="erro">⚠️ Preencha todos os campos!</div>';
+                return;
+            }
+
+            const resultado = auth.fazerLogin(email, senha);
+            
+            if (resultado.sucesso) {
+                msg.innerHTML = '<div class="sucesso">✅ Login realizado! Redirecionando...</div>';
+                setTimeout(() => {
+                    window.location.href = '/pages/perfil.html';
+                }, 1500);
+            } else {
+                msg.innerHTML = `<div class="erro">❌ ${resultado.erro}</div>`;
+            }
+        });
+    }
+
+    // Form Cadastro
+    if (formCadastro) {
+        formCadastro.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const nome = document.getElementById('cadastroNome').value.trim();
+            const email = document.getElementById('cadastroEmail').value.trim();
+            const senha = document.getElementById('cadastroSenha').value;
+            const confirmaSenha = document.getElementById('cadastroConfirmaSenha').value;
+            const msg = document.getElementById('mensagemCadastro');
+
+            if (!nome || !email || !senha || !confirmaSenha) {
+                msg.innerHTML = '<div class="erro">⚠️ Preencha todos os campos!</div>';
+                return;
+            }
+
+            if (senha !== confirmaSenha) {
+                msg.innerHTML = '<div class="erro">⚠️ As senhas não conferem!</div>';
+                return;
+            }
+
+            if (senha.length < 6) {
+                msg.innerHTML = '<div class="erro">⚠️ Senha deve ter pelo menos 6 caracteres!</div>';
+                return;
+            }
+
+            const resultado = auth.fazerCadastro(nome, email, senha);
+            
+            if (resultado.sucesso) {
+                msg.innerHTML = '<div class="sucesso">✅ Cadastro realizado! Fazendo login...</div>';
+                setTimeout(() => {
+                    auth.fazerLogin(email, senha);
+                    window.location.href = '/pages/perfil.html';
+                }, 1500);
+            } else {
+                msg.innerHTML = `<div class="erro">❌ ${resultado.erro}</div>`;
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>

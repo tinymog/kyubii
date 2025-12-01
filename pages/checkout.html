@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Kyubii</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/checkout.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-esq">
+      <img src="/img/logoBranco.png" alt="Logo Kyubii" class="logo">
+    </div>
+
+    <nav class="nav-centro">
+      <a href="/pages/principal.html"> HOME</a>
+      <a href="/pages/loja.html">LOJA</a>
+      <a href="/pages/biblioteca.html">BIBLIOTECA</a>
+      <a href="/pages/comunidades.html">COMUNIDADES</a>
+      <a href="/pages/noticias.html">NOTÍCIAS</a>
+    </nav>
+
+    <div class="nav-dir">
+      <div class="busca">
+        <input type="text" placeholder="Buscar...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+
+      <a href="/pages/carrinho.html" class="ic-carrinho">
+        <i class="fa-solid fa-shopping-cart"></i>
+        <span class="carrinho-badge" id="cartBadge">0</span>
+      </a>
+
+      <a href="/pages/perfil.html" class="ic-usr">
+        <i class="fa-solid fa-user"></i>
+      </a>
+      <i class="fa-solid fa-bars ic-menu"></i>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="conteudo">
+    <h1>CHECKOUT</h1>
+
+    <div class="checkout-wrapper">
+      <!-- FORMULÁRIO -->
+      <div class="checkout-form">
+        <!-- DADOS PESSOAIS -->
+        <div class="form-section">
+          <h2>Dados Pessoais</h2>
+          <div class="form-group">
+            <label for="nome">Nome Completo</label>
+            <input type="text" id="nome" placeholder="João Silva" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="joao@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input type="tel" id="telefone" placeholder="(11) 99999-9999" required>
+          </div>
+        </div>
+
+        <!-- ENDEREÇO -->
+        <div class="form-section">
+          <h2>Endereço de Entrega</h2>
+          <div class="form-group">
+            <label for="cep">CEP</label>
+            <input type="text" id="cep" placeholder="12345-678" required>
+          </div>
+          <div class="form-group">
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" placeholder="Rua das Flores, 123" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="numero">Número</label>
+              <input type="text" id="numero" placeholder="123" required>
+            </div>
+            <div class="form-group">
+              <label for="complemento">Complemento</label>
+              <input type="text" id="complemento" placeholder="Apto 45 (opcional)">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cidade">Cidade</label>
+              <input type="text" id="cidade" placeholder="São Paulo" required>
+            </div>
+            <div class="form-group">
+              <label for="estado">Estado</label>
+              <input type="text" id="estado" placeholder="SP" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- MÉTODO DE PAGAMENTO -->
+        <div class="form-section">
+          <h2>Método de Pagamento</h2>
+
+          <div class="payment-methods">
+            <!-- CARTÃO DE CRÉDITO -->
+            <label class="payment-option">
+              <input type="radio" name="pagamento" value="cartao" checked>
+              <span class="payment-label">
+                <i class="fa-solid fa-credit-card"></i>
+                Cartão de Crédito
+              </span>
+            </label>
+
+            <!-- PIX -->
+            <label class="payment-option">
+              <input type="radio" name="pagamento" value="pix">
+              <span class="payment-label">
+                <i class="fa-solid fa-qrcode"></i>
+                PIX
+              </span>
+            </label>
+
+            <!-- BOLETO -->
+            <label class="payment-option">
+              <input type="radio" name="pagamento" value="boleto">
+              <span class="payment-label">
+                <i class="fa-solid fa-barcode"></i>
+                Boleto Bancário
+              </span>
+            </label>
+          </div>
+
+          <!-- FORMULÁRIO CARTÃO -->
+          <div id="formCartao" class="payment-form">
+            <div class="form-group">
+              <label for="nomeTitular">Nome do Titular</label>
+              <input type="text" id="nomeTitular" placeholder="João Silva" required>
+            </div>
+            <div class="form-group">
+              <label for="numeroCartao">Número do Cartão</label>
+              <input type="text" id="numeroCartao" placeholder="1234 5678 9012 3456" maxlength="19" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="validade">Validade</label>
+                <input type="text" id="validade" placeholder="MM/AA" maxlength="5" required>
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORMULÁRIO PIX -->
+          <div id="formPix" class="payment-form" style="display: none;">
+            <div class="pix-info">
+              <p>Você receberá um QR Code para escanear após confirmar o pedido.</p>
+              <p class="pix-fee">Sem taxa de processamento!</p>
+            </div>
+          </div>
+
+          <!-- FORMULÁRIO BOLETO -->
+          <div id="formBoleto" class="payment-form" style="display: none;">
+            <div class="boleto-info">
+              <p>Você receberá um boleto bancário por email.</p>
+              <p class="boleto-fee">Prazo: até 3 dias úteis</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESUMO DO PEDIDO -->
+      <div class="checkout-resumo">
+        <h2>Resumo do Pedido</h2>
+
+        <div class="resumo-produtos" id="resumoProdutos">
+          <!-- Produtos serão adicionados aqui -->
+        </div>
+
+        <div class="resumo-divisor"></div>
+
+        <div class="resumo-item">
+          <span>Subtotal:</span>
+          <span id="resumoSubtotal">R$ 0,00</span>
+        </div>
+
+        <div class="resumo-item">
+          <span>Frete:</span>
+          <span id="resumoFrete">R$ 0,00</span>
+        </div>
+
+        <div class="resumo-item desconto">
+          <span>Desconto:</span>
+          <span id="resumoDesconto">-R$ 0,00</span>
+        </div>
+
+        <div class="resumo-divisor"></div>
+
+        <div class="resumo-total">
+          <span>Total:</span>
+          <span id="resumoTotal">R$ 0,00</span>
+        </div>
+
+        <button class="btn-finalizar" id="btnFinalizar">Finalizar Compra</button>
+        <a href="/pages/carrinho.html" class="btn-voltar">Voltar ao Carrinho</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL DE SUCESSO -->
+  <div id="modalSucesso" class="modal">
+    <div class="modal-content">
+      <div class="modal-icon">
+        <i class="fa-solid fa-check-circle"></i>
+      </div>
+      <h2>Compra Realizada!</h2>
+      <p id="modalMensagem">Pedido confirmado com sucesso!</p>
+      <p class="modal-info">Um email de confirmação foi enviado para seu email.</p>
+      <button class="btn-ok" id="btnOk">Voltar para Loja</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="/pages/sobre.html">Sobre</a> | <a
+      href="https://www.instagram.com/kyubiigb?igsh=MTV2bXZxdmtsdjAxNw==">Contato</a>
+  </footer>
+
+  <script src="/js/checkout.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

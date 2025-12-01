@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidade - Kyubii</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/comunidade-detalhes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-esq">
+            <img src="/img/logoBranco.png" alt="Logo Kyubii" class="logo">
+        </div>
+
+        <nav class="nav-centro">
+            <a href="/pages/principal.html"> HOME</a>
+            <a href="/pages/loja.html">LOJA</a>
+            <a href="/pages/biblioteca.html">BIBLIOTECA</a>
+            <a href="/pages/comunidades.html">COMUNIDADES</a>
+            <a href="/pages/noticias.html">NOTÍCIAS</a>
+        </nav>
+
+        <div class="nav-dir">
+            <div class="busca">
+                <input type="text" placeholder="Buscar...">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <a href="/pages/carrinho.html" class="ic-carrinho">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span class="carrinho-badge" id="cartBadge">0</span>
+            </a>
+
+            <a href="/pages/perfil.html" class="ic-usr">
+                <i class="fa-solid fa-user"></i>
+            </a>
+            <i class="fa-solid fa-bars ic-menu"></i>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="comunidade-main">
+        <!-- BANNER -->
+        <div class="comunidade-banner" id="comunidade-banner"></div>
+
+        <!-- HEADER -->
+        <div class="comunidade-header" id="comunidade-header">
+            <div class="header-top">
+                <div class="header-left">
+                    <div class="avatar-grande" id="comunidade-avatar">C</div>
+                    <div class="header-info">
+                        <h1 id="com-nome">Nome da Comunidade</h1>
+                        <p id="com-tipo">Tipo</p>
+                        <p id="com-descricao">Descrição</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="numero" id="stat-membros">0</span>
+                            <span class="label">Membros</span>
+                        </div>
+                        <div class="stat">
+                            <span class="numero" id="stat-posts">0</span>
+                            <span class="label">Posts</span>
+                        </div>
+                    </div>
+                    <div id="botoes-container" class="botoes"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO -->
+        <div class="comunidade-conteudo">
+            <!-- SEÇÃO POSTS -->
+            <section class="secao-posts">
+                <h2>📝 Posts</h2>
+                <div id="posts-lista" class="lista-posts">
+                    <p>Nenhum post</p>
+                </div>
+            </section>
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <!-- INFO -->
+                <div class="widget">
+                    <h3>ℹ️ Informações</h3>
+                    <div class="info-row">
+                        <span class="label">Criada em:</span>
+                        <span id="info-data">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Tipo:</span>
+                        <span id="info-tipo">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Criador:</span>
+                        <span id="info-criador">-</span>
+                    </div>
+                </div>
+
+                <!-- MEMBROS -->
+                <div class="widget">
+                    <h3>👥 Membros</h3>
+                    <div id="membros-lista" class="lista-membros">
+                        <p>Nenhum membro</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="/pages/sobre.html">Sobre</a> | <a
+            href="https://www.instagram.com/kyubiigb?igsh=MTV2bXZxdmtsdjAxNw==">Contato</a>
+    </footer>
+
+    <script src="/js/comunidade-detalhes.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>

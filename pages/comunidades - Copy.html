@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidades - Kyubii</title>
+    <link rel="stylesheet" href="/css/comunidades.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <img src="https://via.placeholder.com/45x45?text=Kyubii" alt="Kyubii" class="logo">
+        <div class="nav-centro">
+            <a href="/pages/loja.html">LOJA</a>
+            <a href="/pages/biblioteca.html">BIBLIOTECA</a>
+            <a href="/pages/comunidades.html" class="ativa">COMUNIDADES</a>
+            <a href="/pages/noticias.html">NOTÍCIAS</a>
+        </div>
+        <div class="nav-dir">
+            <div class="busca">
+                <input type="text" placeholder="Buscar...">
+                <i class="fas fa-search"></i>
+            </div>
+            <i class="fas fa-user ic-usr"></i>
+            <i class="fas fa-bars ic-menu"></i>
+        </div>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🎮 COMUNIDADES</h1>
+            <p>Conecte-se com pessoas que compartilham seus interesses</p>
+        </div>
+
+        <!-- SEÇÃO PRINCIPAL: 2 COLUNAS -->
+        <div class="secao-principal">
+            <!-- COLUNA 1: DESTAQUE -->
+            <div class="col-destaque">
+                <h2 class="titulo-secao">⭐ EM DESTAQUE</h2>
+                <div id="comunidade-destaque"></div>
+            </div>
+
+            <!-- COLUNA 2: MINHAS COMUNIDADES -->
+            <div class="col-minhas">
+                <h2 class="titulo-secao">👥 MINHAS COMUNIDADES</h2>
+                <div id="minhas-comunidades"></div>
+            </div>
+        </div>
+
+        <!-- SEÇÃO EXPLORAR: GRID DE CARDS CLICÁVEIS -->
+        <div class="secao-explorar">
+            <h2 class="titulo-secao">🔍 EXPLORAR COMUNIDADES</h2>
+            <div id="grid-explorar" class="grid-comunidades"></div>
+        </div>
+    </div>
+
+    <!-- FAB BUTTON -->
+    <button class="fab-criar" onclick="window.location.href='/pages/criar-comunidade.html'">
+        <span>+</span> Criar Comunidade
+    </button>
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="#">Sobre</a> | <a href="#">Privacidade</a> | <a href="#">Termos</a> | <a href="#">Contato</a>
+    </footer>
+
+    <script src="/js/comunidades.js"></script>
+</body>
+</html>

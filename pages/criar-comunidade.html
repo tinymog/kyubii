@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Comunidade - Kyubii</title>
+    <link rel="stylesheet" href="/css/criar-comunidade.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="conteudo">
+        <div class="container-form">
+            <!-- HEADER -->
+            <div class="header-form">
+                <h1>CRIAÇÃO DE COMUNIDADE</h1>
+                <p>Crie sua comunidade e comece a conectar pessoas com interesses em comum</p>
+            </div>
+
+            <!-- LAYOUT 2 COLUNAS -->
+            <div class="formulario-grid">
+
+                <!-- COLUNA ESQUERDA: UPLOAD DE IMAGEM -->
+                <div class="col-upload">
+                    <h3>Imagem da Comunidade</h3>
+
+                    <!-- UPLOAD AREA -->
+                    <div class="upload-area" id="uploadArea">
+                        <!-- CONTEÚDO (quando vazio) -->
+                        <div class="upload-content" id="uploadContent">
+                            <div class="upload-icon">📤</div>
+                            <div class="upload-text">Clique ou arraste</div>
+                            <div class="upload-hint">sua imagem aqui</div>
+                        </div>
+
+                        <!-- IMAGEM (quando selecionada) -->
+                        <div class="upload-image-wrapper" id="uploadImageWrapper" style="display: none;">
+                            <img id="uploadImageDisplay" src="" alt="Preview da comunidade">
+                            <button class="upload-remove-btn" id="uploadRemoveBtn" onclick="removerImagem()">
+                                ✕ Remover
+                            </button>
+                        </div>
+
+                        <input type="file" id="preview" accept="image/*" style="display:none;">
+                    </div>
+
+                    <div class="upload-info">Tamanho máximo: 5MB<br>Formatos: JPG, PNG, WebP</div>
+                </div>
+
+                <!-- COLUNA DIREITA: FORMULÁRIO -->
+                <div class="col-form">
+                    <h3>Formulário</h3>
+
+                    <form class="formulario" id="formCriarComunidade">
+
+                        <!-- NOME DA COMUNIDADE -->
+                        <div class="form-group">
+                            <label for="nomeComunidade">Nome da Comunidade</label>
+                            <input type="text" id="nomeComunidade" name="nomeComunidade" placeholder="Digite o nome..."
+                                required>
+                        </div>
+
+                        <!-- TAMANHO MÁXIMO -->
+                        <div class="form-group">
+                            <label for="tamanhoMax">Tamanho máx.</label>
+                            <input type="number" id="tamanhoMax" name="tamanhoMax" placeholder="Exemplo: 50" min="1"
+                                required>
+                        </div>
+
+                        <!-- ASSUNTO PRINCIPAL -->
+                        <div class="form-group">
+                            <label for="assunto">Assunto principal</label>
+                            <input type="text" id="assunto" name="assunto" placeholder="Qual é o foco da comunidade?"
+                                required>
+                        </div>
+
+                        <!-- TIPO DE COMUNIDADE -->
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <select id="tipo" name="tipo" required>
+                                <option value="">Selecione um tipo...</option>
+                                <option value="gaming">🎮 Gaming</option>
+                                <option value="estudo">📚 Estudo</option>
+                                <option value="arte">🎨 Arte</option>
+                                <option value="musica">🎵 Música</option>
+                                <option value="esportes">⚽ Esportes</option>
+                                <option value="tecnologia">💻 Tecnologia</option>
+                                <option value="livros">📖 Livros</option>
+                                <option value="anime">🗾 Anime</option>
+                                <option value="outro">📌 Outro</option>
+                            </select>
+                        </div>
+
+                        <!-- REGRAS -->
+                        <div class="form-group">
+                            <label for="regras">Regras</label>
+                            <textarea id="regras" name="regras"
+                                placeholder="Defina as regras da comunidade..."></textarea>
+                        </div>
+
+                        <!-- BIOGRAFIA DA COMUNIDADE -->
+                        <div class="form-group">
+                            <label for="biografia">Biografia da Comunidade</label>
+                            <textarea id="biografia" name="biografia" placeholder="Descreva sua comunidade..."
+                                required></textarea>
+                        </div>
+
+                        <!-- BOTÕES -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary"
+                                onclick="window.location.href='/pages/comunidades.html'">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Criar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/criar-comunidade.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,394 @@
+/* ═══════════════════════════════════════════════════════════════════
+   AUTH.CSS - LOGIN E REGISTRO
+   Paleta Original Kyubii: #7a3df5, #a64eff, #c699ff, #000000
+   ═══════════════════════════════════════════════════════════════════ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background-color: #000000;
+    background-image: url('https://www.transparenttextures.com/patterns/black-felt.png');
+    background-repeat: repeat;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CONTAINER PRINCIPAL
+   ═══════════════════════════════════════════════════════════════════ */
+
+.container-auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    padding: 20px 40px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1000px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LOGO AREA
+   ═══════════════════════════════════════════════════════════════════ */
+
+.logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.logo-title {
+    font-size: 2rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.logo-subtitle {
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #cccccc;
+    margin-top: 10px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FORM AREA
+   ═══════════════════════════════════════════════════════════════════ */
+
+.form-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 320px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #7a3df5;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(124, 61, 245, 0.3);
+}
+
+.form-area h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+    width: 100%;
+    text-align: center;
+    color: #c699ff;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INPUT GROUP
+   ═══════════════════════════════════════════════════════════════════ */
+
+.input-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    color: #aaaaaa;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7a3df5;
+    font-size: 1rem;
+    z-index: 1;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a64eff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 2;
+}
+
+.eye-icon:hover {
+    color: #c699ff;
+}
+
+.input {
+    width: 100%;
+    background-color: #e6e6e6;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 45px;
+    font-size: 0.95rem;
+    color: #333333;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+    font-family: "Poppins", Arial, sans-serif;
+}
+
+.input::placeholder {
+    color: #777777;
+}
+
+.input:focus {
+    box-shadow: 0 0 10px rgba(166, 78, 255, 0.5);
+}
+
+.input:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BUTTON LOGIN
+   ═══════════════════════════════════════════════════════════════════ */
+
+.button-login {
+    width: 100%;
+    background: linear-gradient(135deg, #7a3df5, #a64eff);
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(124, 61, 245, 0.3);
+    font-family: "Poppins", Arial, sans-serif;
+}
+
+.button-login:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(124, 61, 245, 0.5);
+}
+
+.button-login:active {
+    transform: scale(0.98);
+}
+
+.button-login:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: scale(1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LINKS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.links {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.links p {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+}
+
+.links a {
+    color: #a64eff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.links a:hover {
+    color: #c699ff;
+    text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ALERT / MENSAGENS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.alert {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background-color: rgba(95, 254, 111, 0.1);
+    border-left-color: #5ffe6f;
+    color: #5ffe6f;
+}
+
+.alert-error {
+    background-color: rgba(255, 107, 107, 0.1);
+    border-left-color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left-color: #ffc107;
+    color: #ffc107;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LOADING
+   ═══════════════════════════════════════════════════════════════════ */
+
+.loading {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #7a3df5;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+    .container-auth {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-auth {
+        flex-direction: column;
+        gap: 40px;
+        padding: 20px;
+    }
+
+    .form-area {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    .logo-title {
+        font-size: 1.8rem;
+    }
+
+    .logo-subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-auth {
+        padding: 10px;
+        gap: 20px;
+    }
+
+    .form-area {
+        width: 100%;
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .form-area h1 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+
+    .logo-area {
+        display: none;
+    }
+
+    .input {
+        padding: 10px 40px;
+        font-size: 0.9rem;
+    }
+
+    .button-login {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .links p {
+        font-size: 0.85rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ANIMAÇÕES
+   ═══════════════════════════════════════════════════════════════════ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-area {
+    animation: fadeIn 0.5s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ACESSIBILIDADE
+   ═══════════════════════════════════════════════════════════════════ */
+
+.input:focus {
+    outline: 2px solid #a64eff;
+    outline-offset: 2px;
+}
+
+.button-login:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PRINT
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media print {
+    body {
+        display: none;
+    }
+}

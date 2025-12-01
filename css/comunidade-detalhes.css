@@ -1,0 +1,469 @@
+/* COMUNIDADE DETALHES - CSS COMPLETO COM POSTS E COMENTÁRIOS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+
+
+/* MAIN CONTENT */
+main {
+    padding-top: 110px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 60px;
+}
+
+/* BANNER */
+.comunidade-banner {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #7a3df5, #4800bd);
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 30px rgba(124, 61, 245, 0.3);
+}
+
+/* HEADER */
+.comunidade-header {
+    background: rgba(124, 61, 245, 0.1);
+    border: 1px solid rgba(124, 61, 245, 0.3);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+}
+
+.header-left {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+}
+
+.avatar-grande {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7a3df5, #a64eff);
+    border: 3px solid rgba(124, 61, 245, 0.4);
+    font-size: 2.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    text-shadow: 0 0 10px rgba(166, 78, 255, 0.5);
+}
+
+.header-info h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.header-info p {
+    color: #ccc;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-end;
+    flex-shrink: 0;
+}
+
+.stats {
+    display: flex;
+    gap: 30px;
+}
+
+.stat {
+    text-align: right;
+}
+
+.numero {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #a64eff;
+}
+
+.label {
+    display: block;
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-top: 4px;
+}
+
+.botoes {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #7a3df5, #a64eff);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(124, 61, 245, 0.4);
+}
+
+.btn:hover {
+    box-shadow: 0 0 25px rgba(124, 61, 245, 0.6);
+    transform: scale(1.05);
+}
+
+/* CONTEÚDO */
+.comunidade-conteudo {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 30px;
+}
+
+/* SEÇÃO POSTS */
+.secao-posts h2 {
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    color: #c699ff;
+}
+
+.lista-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* FORMULÁRIO NOVO POST */
+.form-novo-post {
+    background: rgba(124, 61, 245, 0.1);
+    border: 1px solid rgba(124, 61, 245, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-novo-post textarea {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(124, 61, 245, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    min-height: 80px;
+    resize: vertical;
+}
+
+.form-novo-post textarea:focus {
+    outline: none;
+    border-color: #a64eff;
+    box-shadow: 0 0 10px rgba(166, 78, 255, 0.3);
+}
+
+/* POST ITEM */
+.post-item {
+    background: rgba(124, 61, 245, 0.1);
+    border: 1px solid rgba(124, 61, 245, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    color: #ddd;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(124, 61, 245, 0.1);
+}
+
+.post-autor {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.avatar-post {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7a3df5, #a64eff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.post-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-info strong {
+    color: #c699ff;
+    font-size: 0.95rem;
+}
+
+.post-data {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 2px;
+}
+
+.post-conteudo {
+    margin-bottom: 12px;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* ACTIONS */
+.post-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(124, 61, 245, 0.1);
+}
+
+.action-btn {
+    background: transparent;
+    border: 1px solid rgba(124, 61, 245, 0.3);
+    color: #a64eff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    border-color: #a64eff;
+    background: rgba(166, 78, 255, 0.1);
+}
+
+.action-btn.curtido {
+    background: rgba(255, 0, 100, 0.1);
+    border-color: #ff0064;
+    color: #ff0064;
+}
+
+/* COMENTÁRIOS */
+.comentarios {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(124, 61, 245, 0.1);
+}
+
+.lista-comentarios {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.comentario {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    border-left: 3px solid #a64eff;
+}
+
+.comentario strong {
+    color: #c699ff;
+}
+
+.comentario small {
+    display: block;
+    color: #666;
+    margin-top: 5px;
+}
+
+.form-comentario {
+    display: flex;
+    gap: 8px;
+}
+
+.form-comentario input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(124, 61, 245, 0.2);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+.form-comentario input:focus {
+    outline: none;
+    border-color: #a64eff;
+}
+
+.btn-pequeno {
+    background: rgba(166, 78, 255, 0.5);
+    border: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.btn-pequeno:hover {
+    background: #a64eff;
+}
+
+/* SIDEBAR */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.widget {
+    background: rgba(124, 61, 245, 0.1);
+    border: 1px solid rgba(124, 61, 245, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.widget h3 {
+    color: #c699ff;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(124, 61, 245, 0.1);
+    font-size: 0.9rem;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row .label {
+    color: #aaa;
+    text-align: left;
+}
+
+.info-row span:last-child {
+    color: #fff;
+    text-align: right;
+}
+
+.lista-membros {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.membro-item {
+    padding: 10px;
+    background: rgba(166, 78, 255, 0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #ddd;
+}
+
+.lista-posts p,
+.lista-membros p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 0.85rem;
+    margin-top: 40px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    main {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .header-top {
+        flex-direction: column;
+    }
+
+    .header-right {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .comunidade-conteudo {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .stat {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+
+
+
+
+    .comunidade-banner {
+        height: 150px;
+    }
+
+    .header-info h1 {
+        font-size: 1.5rem;
+    }
+
+    .avatar-grande {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+}

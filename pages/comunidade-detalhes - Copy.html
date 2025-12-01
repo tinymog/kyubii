@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidade - Kyubii</title>
+    <link rel="stylesheet" href="/css/comunidade-detalhes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Banner -->
+        <div class="comunidade-banner">
+            <!-- Background definido via JavaScript -->
+        </div>
+
+        <!-- Header com Info -->
+        <div class="comunidade-header">
+            <!-- Renderizado via JavaScript -->
+        </div>
+
+        <!-- Navegação por Abas -->
+        <nav class="abas-navegacao">
+            <button class="aba-btn ativa" data-aba="posts">📝 Posts</button>
+            <button class="aba-btn" data-aba="membros">👥 Membros</button>
+            <button class="aba-btn" data-aba="info">ℹ️ Informações</button>
+        </nav>
+
+        <!-- Conteúdo das Abas -->
+        <div class="abas-container">
+            <!-- Aba Posts -->
+            <div id="posts" class="aba-conteudo ativa">
+                <div class="criar-post-section">
+                    <h3>✍️ Criar Post</h3>
+                    <form id="form-novo-post">
+                        <textarea 
+                            id="texto-post" 
+                            class="form-control" 
+                            rows="4" 
+                            placeholder="Compartilhe algo com a comunidade..." 
+                            maxlength="1000"
+                        ></textarea>
+                        <button type="submit" class="btn btn-primary">📤 Publicar</button>
+                    </form>
+                </div>
+
+                <div class="posts-section">
+                    <h3>📋 Posts Recentes</h3>
+                    <div id="posts-lista" class="posts-lista">
+                        <!-- Renderizado via JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aba Membros -->
+            <div id="membros" class="aba-conteudo">
+                <div class="membros-section">
+                    <h3>👥 Membros da Comunidade</h3>
+                    <div id="membros-lista" class="membros-lista">
+                        <!-- Renderizado via JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aba Info -->
+            <div id="info" class="aba-conteudo">
+                <div class="info-section">
+                    <h3>ℹ️ Informações da Comunidade</h3>
+                    <div id="info-conteudo" class="info-conteudo">
+                        <!-- Renderizado via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estilos do Modal -->
+    <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-conteudo {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-conteudo h2 {
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .modal-conteudo label {
+            display: block;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        .modal-conteudo input,
+        .modal-conteudo textarea,
+        .modal-conteudo select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #2d2d44;
+            border-radius: 8px;
+            background: #0f0f23;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .modal-conteudo textarea {
+            resize: vertical;
+        }
+
+        .modal-acoes {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: flex-end;
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-icon:hover {
+            transform: scale(1.2);
+        }
+    </style>
+
+    <script src="/js/comunidade-detalhes.js"></script>
+</body>
+</html>

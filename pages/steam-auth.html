@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectando Steam - Kyubii</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1d064d 0%, #4800bd 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+
+        .status {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h1>🔗 Conectando Steam...</h1>
+        <p>Por favor, autentique-se no Steam</p>
+        <p id="contador"></p>
+        <div class="status">
+            Você será redirecionado automaticamente após a autenticação
+        </div>
+    </div>
+
+    <script>
+        // ✅ 1. FUNÇÃO PARA REDIRECIONAR PARA STEAM
+        function iniciarAutenticacaoSteam() {
+            console.log('🔗 Iniciando autenticação Steam...');
+
+            // Redireciona para /steam-login do app.py
+            // O app.py vai redirecionar para Steam
+            // Após autenticação, Steam redireciona para /steam-callback
+            // /steam-callback retorna HTML que salva dados e redireciona
+
+            window.location.href = '/steam-login';
+        }
+
+        // ✅ 2. AGUARDAR DADOS DO STEAM NO LOCALSTORAGE
+        let tentativas = 0;
+        const maxTentativas = 120; // 2 minutos (120 * 1s)
+
+        const intervalo = setInterval(() => {
+            tentativas++;
+
+            // Atualizar contador
+            const contador = document.getElementById('contador');
+            if (contador) {
+                contador.textContent = `Tentativa ${tentativas}...`;
+            }
+
+            console.log(`⏱️ Aguardando dados do Steam... (${tentativas}s)`);
+
+            // Verificar se dados foram salvos
+            const steamId = localStorage.getItem('steamId');
+            const steamUsername = localStorage.getItem('steamUsername');
+
+            if (steamId && steamId !== 'null') {
+                console.log('✅ Dados do Steam recebidos!');
+                console.log('   steamId:', steamId);
+                console.log('   usuario:', steamUsername);
+
+                clearInterval(intervalo);
+
+                // ✅ Chamar SteamSync para sincronizar
+                if (typeof SteamSync !== 'undefined') {
+                    console.log('🔄 Sincronizando com SteamSync...');
+                    SteamSync.sincronizar();
+                }
+
+                // Redirecionar para perfil
+                setTimeout(() => {
+                    console.log('📍 Redirecionando para perfil...');
+                    window.location.href = '/pages/perfil.html';
+                }, 1000);
+
+                return;
+            }
+
+            // Se passou do tempo máximo
+            if (tentativas > maxTentativas) {
+                clearInterval(intervalo);
+                console.error('❌ Timeout: autenticação Steam demorou muito');
+                alert('Timeout na autenticação Steam. Tente novamente.');
+                window.close();
+            }
+        }, 1000);
+
+        // ✅ 3. INICIAR O FLUXO
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('📄 steam-auth.html carregado');
+            console.log('🚀 Iniciando autenticação Steam...');
+
+            // Pequeno delay para garantir que localStorage está pronto
+            setTimeout(() => {
+                iniciarAutenticacaoSteam();
+            }, 500);
+        });
+
+        // ✅ 4. TRATAMENTO DE VISIBILIDADE (em caso de popup ser minimizado)
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                console.log('👁️ Janela ficou visível novamente');
+                // Verificar novamente se dados foram salvos
+            }
+        });
+    </script>
+</body>
+</html>

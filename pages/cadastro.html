@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Kyubii</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+
+<div class="container-auth">
+    <!-- LOGO AREA -->
+    <div class="logo-area">
+        <div class="logo-title">KYUBII</div>
+        <img src="../img/logoBranco.png" alt="Logo" class="logo">
+        <div class="logo-subtitle">GAME LIBRARY</div>
+    </div>
+
+    <!-- FORM AREA -->
+    <div class="form-area">
+        <h1>CADASTRO</h1>
+
+        <form id="formRegistro">
+            <!-- Nome -->
+            <div class="input-group">
+                <i class="fa-solid fa-user icon"></i>
+                <input 
+                    type="text" 
+                    id="nome" 
+                    class="input" 
+                    placeholder="Seu nome"
+                    required
+                >
+            </div>
+
+            <!-- Email -->
+            <div class="input-group">
+                <i class="fa-solid fa-envelope icon"></i>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="input" 
+                    placeholder="Seu e-mail"
+                    required
+                >
+            </div>
+
+            <!-- Senha -->
+            <div class="input-group">
+                <i class="fa-solid fa-lock icon"></i>
+                <input 
+                    type="password" 
+                    id="senha" 
+                    class="input" 
+                    placeholder="Senha (mín. 6 caracteres)"
+                    required
+                >
+                <i class="fa-solid fa-eye eye-icon" id="toggleSenha"></i>
+            </div>
+
+            <!-- Confirmar Senha -->
+            <div class="input-group">
+                <i class="fa-solid fa-lock icon"></i>
+                <input 
+                    type="password" 
+                    id="confirmaSenha" 
+                    class="input" 
+                    placeholder="Confirmar senha"
+                    required
+                >
+                <i class="fa-solid fa-eye eye-icon" id="toggleConfirmaSenha"></i>
+            </div>
+
+            <!-- Botão -->
+            <button type="submit" class="button-login">Criar Conta</button>
+        </form>
+
+        <!-- Link Login -->
+        <div class="links">
+            <p>Já tem conta? <a href="login.html">Faça login aqui</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="../js/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('formRegistro');
+    const toggleSenha = document.getElementById('toggleSenha');
+    const toggleConfirmaSenha = document.getElementById('toggleConfirmaSenha');
+    const inputSenha = document.getElementById('senha');
+    const inputConfirmaSenha = document.getElementById('confirmaSenha');
+
+    const togglePassword = (input, icon) => {
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    };
+
+    if (toggleSenha && inputSenha) {
+        toggleSenha.addEventListener('click', (e) => {
+            e.preventDefault();
+            togglePassword(inputSenha, toggleSenha);
+        });
+    }
+
+    if (toggleConfirmaSenha && inputConfirmaSenha) {
+        toggleConfirmaSenha.addEventListener('click', (e) => {
+            e.preventDefault();
+            togglePassword(inputConfirmaSenha, toggleConfirmaSenha);
+        });
+    }
+
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const nome = document.getElementById('nome').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const senha = document.getElementById('senha').value;
+            const confirmaSenha = document.getElementById('confirmaSenha').value;
+
+            if (!nome || !email || !senha || !confirmaSenha) {
+                alert('⚠️ Preencha todos os campos!');
+                return;
+            }
+
+            if (senha !== confirmaSenha) {
+                alert('⚠️ As senhas não conferem!');
+                return;
+            }
+
+            if (senha.length < 6) {
+                alert('⚠️ Senha deve ter pelo menos 6 caracteres!');
+                return;
+            }
+
+            const resultado = auth.fazerCadastro(nome, email, senha);
+            
+            if (resultado.sucesso) {
+                alert('✅ Cadastro realizado com sucesso!');
+                window.location.href = 'login.html';
+            } else {
+                alert('❌ ' + resultado.erro);
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>

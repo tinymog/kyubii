@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho - Kyubii</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/carrinho.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-esq">
+      <img src="/img/logoBranco.png" alt="Logo Kyubii" class="logo">
+    </div>
+
+    <nav class="nav-centro">
+      <a href="/pages/principal.html"> HOME</a>
+      <a href="/pages/loja.html">LOJA</a>
+      <a href="/pages/biblioteca.html">BIBLIOTECA</a>
+      <a href="/pages/comunidades.html">COMUNIDADES</a>
+      <a href="/pages/noticias.html">NOTÍCIAS</a>
+    </nav>
+
+    <div class="nav-dir">
+      <div class="busca">
+        <input type="text" placeholder="Buscar...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+
+      <a href="/pages/carrinho.html" class="ic-carrinho">
+        <i class="fa-solid fa-shopping-cart"></i>
+        <span class="carrinho-badge" id="cartBadge">0</span>
+      </a>
+
+      <a href="/pages/perfil.html" class="ic-usr">
+        <i class="fa-solid fa-user"></i>
+      </a>
+      <i class="fa-solid fa-bars ic-menu"></i>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="conteudo">
+    <h1>CARRINHO DE COMPRAS</h1>
+
+    <div class="carrinho-wrapper">
+      <!-- PRODUTOS NO CARRINHO -->
+      <div class="carrinho-items">
+        <div class="carrinho-header">
+          <span>Produto</span>
+          <span>Preço</span>
+          <span>Quantidade</span>
+          <span>Total</span>
+          <span>Ação</span>
+        </div>
+
+        <div id="carrinhoLista" class="carrinho-lista">
+          <!-- Itens serão adicionados aqui pelo JavaScript -->
+          <div class="carrinho-vazio">
+            <i class="fa-solid fa-shopping-cart"></i>
+            <p>Seu carrinho está vazio</p>
+            <a href="/" class="btn-continuar">Continuar Comprando</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESUMO DO CARRINHO -->
+      <div class="carrinho-resumo">
+        <h2>Resumo do Pedido</h2>
+
+        <div class="resumo-item">
+          <span>Subtotal:</span>
+          <span id="subtotal">R$ 0,00</span>
+        </div>
+
+        <div class="resumo-item">
+          <span>Frete:</span>
+          <span id="frete">R$ 0,00</span>
+        </div>
+
+        <div class="resumo-item desconto">
+          <span>Desconto:</span>
+          <span id="desconto">-R$ 0,00</span>
+        </div>
+
+        <div class="resumo-divisor"></div>
+
+        <div class="resumo-total">
+          <span>Total:</span>
+          <span id="total">R$ 0,00</span>
+        </div>
+
+        <button class="btn-checkout" id="btnCheckout">Ir para o Checkout</button>
+        <a href="/" class="btn-continuar-compras">Continuar Comprando</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="/pages/sobre.html">Sobre</a> | <a
+      href="https://www.instagram.com/kyubiigb?igsh=MTV2bXZxdmtsdjAxNw==">Contato</a>
+  </footer>
+
+  <script src="/js/carrinho.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+
+</html>
