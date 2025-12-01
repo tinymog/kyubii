@@ -1,6 +1,6 @@
-// PERFIL.JS - COM AVATAR CORRIGIDO
+// PERFIL.JS - COM VISUALIZAÇÃO DE OUTROS USUÁRIOS
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('✅ Perfil carregado');
 
     const usuarioLogado = auth.getUsuarioLogado();
@@ -9,14 +9,46 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    const usuario = sincronizarDados(usuarioLogado);
+    // Verificar se está visualizando perfil de outro usuário
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('user');
 
-    preencherPerfil(usuario);
-    carregarBanner(usuario);
+    let usuarioExibir;
+    let modoVisualizacao = false; // true = visualizando outro usuário
+
+    if (userId && userId !== usuarioLogado.id) {
+        // Visualizar perfil de outro usuário
+        console.log(`👀 Visualizando perfil de: ${userId}`);
+        const usuarios = auth.carregarUsuarios();
+        usuarioExibir = usuarios[userId];
+
+        if (!usuarioExibir) {
+            alert('Usuário não encontrado');
+            window.location.href = '/pages/perfil.html';
+            return;
+        }
+
+        modoVisualizacao = true;
+    } else {
+        // Visualizar próprio perfil
+        usuarioExibir = sincronizarDados(usuarioLogado);
+        modoVisualizacao = false;
+    }
+
+    preencherPerfil(usuarioExibir, modoVisualizacao);
+    carregarBanner(usuarioExibir);
     setupAbas();
-    setupBotoes(usuario);
-    setupEditarFoto();
-    carregarConteudoAbas(usuario);
+
+    if (!modoVisualizacao) {
+        // Apenas mostrar botões de edição no próprio perfil
+        setupBotoes(usuarioExibir);
+        setupEditarFoto();
+    } else {
+        // Esconder botões de edição
+        ocultarBotoesEdicao();
+    }
+
+    carregarConteudoAbas(usuarioExibir, modoVisualizacao);
 });
 
 function sincronizarDados(usuario) {
@@ -34,7 +66,7 @@ function sincronizarDados(usuario) {
     return usuario;
 }
 
-function preencherPerfil(usuario) {
+function preencherPerfil(usuario, modoVisualizacao) {
     const nome = document.getElementById('nomeUsuario');
     if (nome) nome.textContent = usuario.nome || 'Usuário';
 
@@ -49,6 +81,11 @@ function preencherPerfil(usuario) {
 
     const bio = document.getElementById('bioUsuario');
     if (bio) bio.textContent = usuario.bio || 'Sua bio aqui';
+
+    // Se em modo visualização, adicionar indicador
+    if (modoVisualizacao) {
+        console.log(`📖 Exibindo perfil de: ${usuario.nome}`);
+    }
 }
 
 function carregarBanner(usuario) {
@@ -70,7 +107,7 @@ function setupAbas() {
     const btns = document.querySelectorAll('.aba-btn');
 
     btns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
             e.preventDefault();
 
             btns.forEach(b => b.classList.remove('aba-ativa'));
@@ -106,7 +143,7 @@ function setupBotoes(usuario) {
 
     const btnLogout = document.querySelector('.btn-logout');
     if (btnLogout) {
-        btnLogout.addEventListener('click', function(e) {
+        btnLogout.addEventListener('click', function (e) {
             e.preventDefault();
             console.log('🚪 Logout acionado');
             auth.fazerLogout();
@@ -121,7 +158,7 @@ function setupEditarFoto() {
     const preview = document.getElementById('previewAvatar');
 
     if (input && preview) {
-        input.addEventListener('change', function(e) {
+        input.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -132,9 +169,14 @@ function setupEditarFoto() {
     }
 }
 
-function carregarConteudoAbas(usuario) {
+function carregarConteudoAbas(usuario, modoVisualizacao) {
     carregarComunidades(usuario);
     carregarConexoes(usuario);
+
+    // Carregar sistema de amigos (agora trata modoVisualizacao internamente)
+    if (typeof carregarAmigos === 'function') {
+        carregarAmigos(usuario, modoVisualizacao);
+    }
 }
 
 function carregarComunidades(usuario) {
@@ -181,26 +223,26 @@ function carregarConexoes(usuario) {
     if (!container) return;
 
     const conexoes = [
-        { 
-            nome: 'Steam', 
-            icone: '🎮', 
+        {
+            nome: 'Steam',
+            icone: '🎮',
             conectado: !!usuario.conexoes?.steam,
             tipo: 'steam',
-            dados: usuario.conexoes?.steam 
+            dados: usuario.conexoes?.steam
         },
-        { 
-            nome: 'Discord', 
-            icone: '💜', 
+        {
+            nome: 'Discord',
+            icone: '💜',
             conectado: !!usuario.conexoes?.discord,
             tipo: 'discord',
-            dados: usuario.conexoes?.discord 
+            dados: usuario.conexoes?.discord
         },
-        { 
-            nome: 'Spotify', 
-            icone: '🎵', 
+        {
+            nome: 'Spotify',
+            icone: '🎵',
             conectado: !!usuario.conexoes?.spotify,
             tipo: 'spotify',
-            dados: usuario.conexoes?.spotify 
+            dados: usuario.conexoes?.spotify
         }
     ];
 
@@ -231,7 +273,7 @@ function carregarConexoes(usuario) {
     container.innerHTML = html;
 }
 
-window.handleConexao = function(tipo) {
+window.handleConexao = function (tipo) {
     if (tipo === 'steam') {
         const steamData = SteamSync.obterDadosSteam();
         if (steamData) {
@@ -248,7 +290,7 @@ window.handleConexao = function(tipo) {
     }
 };
 
-window.carregarJogos = function() {
+window.carregarJogos = function () {
     console.log('📚 Carregando Jogos');
     const container = document.getElementById('jogos-conteudo');
 
@@ -369,7 +411,7 @@ function abrirModalBanner(usuario) {
 
     const salvar = document.getElementById('btn-salvar-banner');
     if (salvar) {
-        salvar.addEventListener('click', function() {
+        salvar.addEventListener('click', function () {
             const cor = document.querySelector('input[name="gradiente"]:checked');
             const url = document.getElementById('urlBanner');
 
@@ -382,14 +424,14 @@ function abrirModalBanner(usuario) {
 
             if (banner) {
                 localStorage.setItem(`banner_${usuario.email}`, banner);
-                carregarBanner({...usuario, banner});
+                carregarBanner({ ...usuario, banner });
                 modal.style.display = 'none';
                 alert('✅ Banner salvo!');
             }
         });
     }
 
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (e.target === modal) {
             modal.style.display = 'none';
         }
@@ -414,7 +456,7 @@ function abrirModalPerfil(usuario) {
 
     // ✨ Permitir selecionar nova foto
     if (inputAvatar) {
-        inputAvatar.addEventListener('change', function(e) {
+        inputAvatar.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -435,7 +477,7 @@ function abrirModalPerfil(usuario) {
 
     const salvar = document.querySelector('.btn-salvar-editar');
     if (salvar) {
-        salvar.addEventListener('click', function() {
+        salvar.addEventListener('click', function () {
             const nome = inputNome ? inputNome.value.trim() : '';
             const bio = inputBio ? inputBio.value.trim() : '';
             const avatar = preview ? preview.src : '';
@@ -497,7 +539,7 @@ function abrirModalPerfil(usuario) {
         });
     }
 
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (e.target === modal) {
             modal.style.display = 'none';
         }

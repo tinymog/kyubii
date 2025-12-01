@@ -1,0 +1,313 @@
+/* ============================================
+   🤝 SISTEMA DE AMIZADE - ESTILOS
+   ============================================ */
+
+/* Seções do Sistema de Amigos */
+.secao-amigos {
+    background: rgba(25, 0, 50, 0.5);
+    border: 2px solid #7e30ff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.secao-amigos h4 {
+    color: #c699ff;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Badge de Contagem */
+.badge-count {
+    background: linear-gradient(135deg, #ff0080, #ff00ff);
+    color: white;
+    font-size: 0.8rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    min-width: 25px;
+    text-align: center;
+    display: inline-block;
+}
+
+/* Busca de Usuários */
+.busca-usuarios {
+    background: linear-gradient(135deg, rgba(45, 0, 128, 0.4), rgba(72, 0, 189, 0.3));
+}
+
+.busca-input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.input-busca-usuario {
+    flex: 1;
+    padding: 12px 18px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #4800bd;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.input-busca-usuario:focus {
+    outline: none;
+    border-color: #c699ff;
+    box-shadow: 0 0 15px rgba(198, 153, 255, 0.4);
+}
+
+.input-busca-usuario::placeholder {
+    color: #9d5fd4;
+}
+
+.btn-buscar-usuario {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #c699ff, #6a00ff);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-buscar-usuario:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(198, 153, 255, 0.5);
+}
+
+/* Resultados de Busca */
+.resultados-busca {
+    min-height: 50px;
+}
+
+/* Lista de Cards (Grid) */
+.lista-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+/* Card de Amigo */
+.card-amigo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(126, 48, 255, 0.2);
+    transition: background 0.2s ease, border-color 0.2s ease;
+    margin-bottom: 0;
+    /* Grid controla o espaçamento */
+    min-height: 110px;
+}
+
+.card-amigo:hover {
+    background: rgba(126, 48, 255, 0.1);
+    border-color: #7e30ff;
+}
+
+.card-amigo.resultado-busca {
+    background: linear-gradient(135deg, rgba(72, 0, 189, 0.3), rgba(106, 0, 255, 0.2));
+}
+
+/* Avatar */
+.avatar-amigo {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 8px;
+    border: 2px solid #c699ff;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #1a0033;
+}
+
+/* Status Online */
+.status-online {
+    position: absolute;
+    line-height: 1.2;
+}
+
+.bio-amigo {
+    color: #b895d4;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ações */
+.acoes-amigo {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+/* Botões de Ação */
+.btn-acao {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+}
+
+.btn-aceitar {
+    background: linear-gradient(135deg, #00ff88, #00cc6a);
+    color: white;
+    min-width: 40px;
+}
+
+.btn-aceitar:hover {
+    opacity: 0.9;
+}
+
+.btn-recusar {
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    color: white;
+    min-width: 40px;
+}
+
+.btn-recusar:hover {
+    opacity: 0.9;
+}
+
+.btn-cancelar {
+    background: linear-gradient(135deg, #ff6b6b, #ff4444);
+    color: white;
+}
+
+.btn-cancelar:hover {
+    opacity: 0.9;
+}
+
+.btn-remover {
+    background: linear-gradient(135deg, #ff4444, #aa0000);
+    color: white;
+}
+
+.btn-remover:hover {
+    opacity: 0.9;
+}
+
+.btn-adicionar {
+    background: linear-gradient(135deg, #6a00ff, #4800bd);
+    color: white;
+}
+
+.btn-adicionar:hover {
+    opacity: 0.9;
+}
+
+.btn-pendente {
+    background: linear-gradient(135deg, #ffaa00, #ff8800);
+    color: white;
+    cursor: default;
+}
+
+/* Botão Ver Perfil - Estilo Antigo (Sólido) */
+.btn-ver-perfil {
+    background: linear-gradient(135deg, #6a00ff, #4800bd);
+    color: white;
+    text-decoration: none;
+    min-width: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-ver-perfil:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(106, 0, 255, 0.5);
+    color: white;
+}
+
+/* Mensagem Vazia */
+.mensagem-vazia {
+    text-align: center;
+    padding: 30px 20px;
+    color: #b895d4;
+}
+
+.mensagem-vazia p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* ============================================
+   📱 RESPONSIVO
+   ============================================ */
+
+@media (max-width: 768px) {
+    .lista-cards {
+        grid-template-columns: 1fr;
+        /* Um por linha no mobile */
+    }
+
+    .card-amigo {
+        padding: 10px;
+        min-height: 100px;
+    }
+
+    .avatar-amigo {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+        min-height: 60px;
+    }
+
+    .info-amigo h5 {
+        font-size: 1rem;
+    }
+
+    .btn-acao {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .busca-input-container {
+        flex-direction: row;
+    }
+
+    .secao-amigos {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-amigo {
+        gap: 10px;
+    }
+
+    .btn-acao {
+        padding: 6px 8px;
+    }
+}

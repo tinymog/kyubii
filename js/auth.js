@@ -22,9 +22,9 @@ class AuthLocal {
     try {
       email = email.toLowerCase().trim();
       const usuarios = this.carregarUsuarios();
-      
+
       const usuario = Object.values(usuarios).find(u => u.email === email);
-      
+
       if (!usuario) {
         return { sucesso: false, erro: 'Usuário não encontrado' };
       }
@@ -43,7 +43,9 @@ class AuthLocal {
         avatar: usuario.avatar,
         conexoes: usuario.conexoes,
         comunidades: usuario.comunidades,
-        amigos: usuario.amigos,
+        amigos: usuario.amigos || [],
+        solicitacoesEnviadas: usuario.solicitacoesEnviadas || [],
+        solicitacoesRecebidas: usuario.solicitacoesRecebidas || [],
         bio: usuario.bio
       };
 
@@ -51,7 +53,7 @@ class AuthLocal {
       localStorage.setItem('usuarioLogado', JSON.stringify(usuarioSessao));
       localStorage.setItem('emailAtivo', email);
       localStorage.setItem(`usuario_${email}`, JSON.stringify(usuarioSessao));
-      
+
       console.log('✅ Login realizado:', usuario.nome);
       return { sucesso: true, usuario: usuarioSessao };
 
@@ -92,6 +94,8 @@ class AuthLocal {
         },
         comunidades: [],
         amigos: [],
+        solicitacoesEnviadas: [],
+        solicitacoesRecebidas: [],
         bio: '',
         jogosOtimistas: [],
         atividades: []
@@ -212,7 +216,7 @@ class AuthLocal {
    */
   atualizarUsuario(usuarioAtualizado) {
     console.log('🔄 Atualizando usuário em auth.js...');
-    
+
     if (!usuarioAtualizado || !usuarioAtualizado.email) {
       console.warn('❌ Usuário inválido');
       return false;
@@ -220,16 +224,16 @@ class AuthLocal {
 
     try {
       const email = usuarioAtualizado.email;
-      
+
       // Salvar em múltiplas chaves para garantir persistência
       localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtualizado));
       localStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
       localStorage.setItem(`usuario_${email}`, JSON.stringify(usuarioAtualizado));
-      
+
       // Também atualizar no banco de usuarios_dados
       const usuarios = this.carregarUsuarios();
       const usuarioEncontrado = Object.values(usuarios).find(u => u.email === email);
-      
+
       if (usuarioEncontrado) {
         usuarioEncontrado.nome = usuarioAtualizado.nome || usuarioEncontrado.nome;
         usuarioEncontrado.bio = usuarioAtualizado.bio || usuarioEncontrado.bio;
@@ -237,12 +241,12 @@ class AuthLocal {
         this.salvarUsuarios(usuarios);
         console.log('✅ Usuário também atualizado em usuarios_dados');
       }
-      
+
       console.log('✅ Usuário atualizado com sucesso');
       console.log('   Nome:', usuarioAtualizado.nome);
       console.log('   Bio:', usuarioAtualizado.bio);
       console.log('   Avatar: ', usuarioAtualizado.avatar ? 'SIM' : 'NÃO');
-      
+
       return true;
     } catch (e) {
       console.error('❌ Erro ao atualizar usuário:', e);
@@ -256,7 +260,7 @@ class AuthLocal {
    */
   recuperarUsuarioAtualizado(email) {
     console.log('🔍 Recuperando usuário atualizado...');
-    
+
     if (!email) {
       console.warn('❌ Email não fornecido');
       return null;
@@ -265,7 +269,7 @@ class AuthLocal {
     // Tentar buscar com email específico primeiro
     const chaveEspecifica = `usuario_${email}`;
     let usuarioSalvo = localStorage.getItem(chaveEspecifica);
-    
+
     if (usuarioSalvo) {
       console.log('✅ Encontrado com chave específica:', chaveEspecifica);
       try {
@@ -298,7 +302,7 @@ class AuthLocal {
   adicionarAmigo(idUsuario, idAmigo) {
     try {
       const usuarios = this.carregarUsuarios();
-      
+
       if (!usuarios[idUsuario] || !usuarios[idAmigo]) {
         return { sucesso: false, erro: 'Usuário não encontrado' };
       }
@@ -311,7 +315,7 @@ class AuthLocal {
 
       usuarios[idUsuario].amigos.push(idAmigo);
       usuarios[idAmigo].amigos.push(idUsuario);
-      
+
       this.salvarUsuarios(usuarios);
       console.log('✅ Amigo adicionado');
       return { sucesso: true };
@@ -327,7 +331,7 @@ class AuthLocal {
   removerAmigo(idUsuario, idAmigo) {
     try {
       const usuarios = this.carregarUsuarios();
-      
+
       if (!usuarios[idUsuario] || !usuarios[idAmigo]) {
         return { sucesso: false, erro: 'Usuário não encontrado' };
       }
@@ -335,7 +339,7 @@ class AuthLocal {
 
       usuarios[idUsuario].amigos = usuarios[idUsuario].amigos.filter(id => id !== idAmigo);
       usuarios[idAmigo].amigos = usuarios[idAmigo].amigos.filter(id => id !== idUsuario);
-      
+
       this.salvarUsuarios(usuarios);
       console.log('✅ Amigo removido');
       return { sucesso: true };
@@ -352,7 +356,7 @@ class AuthLocal {
     try {
       const usuarios = this.carregarUsuarios();
       const usuario = usuarios[idUsuario];
-      
+
       if (!usuario) return [];
 
 
@@ -408,7 +412,7 @@ class AuthLocal {
 
 
       usuarios[idUsuario].atividades.push(atividade);
-      
+
       if (usuarios[idUsuario].atividades.length > 50) {
         usuarios[idUsuario].atividades = usuarios[idUsuario].atividades.slice(-50);
       }

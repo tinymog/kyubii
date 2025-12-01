@@ -7,6 +7,8 @@
     <title>Perfil</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/perfil.css">
+    <link rel="stylesheet" href="/css/perfil-friends.css">
+    <link rel="stylesheet" href="/css/search-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -98,8 +100,42 @@
 
         <!-- ABA: AMIGOS -->
         <div id="amigos" class="aba-conteudo">
-            <h3>👫 Amigos</h3>
-            <p>Conteúdo de Amigos - Em desenvolvimento</p>
+            <h3>👫 Sistema de Amizade</h3>
+
+            <!-- BUSCAR USUÁRIOS -->
+            <div class="secao-amigos busca-usuarios">
+                <h4>🔍 Buscar Usuários</h4>
+                <div class="busca-input-container">
+                    <input type="text" id="inputBuscarUsuario" placeholder="Digite o nome do usuário..."
+                        class="input-busca-usuario">
+                    <button onclick="buscarUsuariosNome()" class="btn-buscar-usuario">Buscar</button>
+                </div>
+                <div id="resultados-busca" class="resultados-busca"></div>
+            </div>
+
+            <!-- SOLICITAÇÕES RECEBIDAS -->
+            <div class="secao-amigos solicitacoes-recebidas">
+                <h4>📬 Solicitações Recebidas <span id="badge-recebidas" class="badge-count">0</span></h4>
+                <div id="lista-solicitacoes-recebidas" class="lista-cards">
+                    <!-- Popolado por JS -->
+                </div>
+            </div>
+
+            <!-- SOLICITAÇÕES ENVIADAS -->
+            <div class="secao-amigos solicitacoes-enviadas">
+                <h4>📤 Solicitações Enviadas <span id="badge-enviadas" class="badge-count">0</span></h4>
+                <div id="lista-solicitacoes-enviadas" class="lista-cards">
+                    <!-- Popolado por JS -->
+                </div>
+            </div>
+
+            <!-- LISTA DE AMIGOS -->
+            <div class="secao-amigos lista-amigos">
+                <h4>💚 Meus Amigos <span id="badge-amigos" class="badge-count">0</span></h4>
+                <div id="lista-amigos-confirmados" class="lista-cards">
+                    <!-- Popolado por JS -->
+                </div>
+            </div>
         </div>
 
         <!-- ABA: CONEXÕES -->
@@ -193,9 +229,13 @@
     </footer>
 
     <script src="/js/auth.js"></script>
+    <script src="/js/search-system.js"></script>
+    <script src="/js/friends-system.js"></script>
     <script src="/js/steam-sync.js"></script>
     <script src="/js/discord-sync.js"></script>
+    <script src="/js/perfil-helpers.js"></script>
     <script src="/js/perfil.js"></script>
+    <script src="/js/perfil-friends.js"></script>
     <script src="/js/script.js"></script>
 </body>
 

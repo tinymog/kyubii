@@ -1,0 +1,309 @@
+/* ============================================
+   🔍 SISTEMA DE BUSCA GLOBAL - ESTILOS
+   ============================================ */
+
+/* Container da Busca */
+.busca {
+    position: relative;
+}
+
+/* Dropdown de Resultados */
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    /* Alinhar à direita da barra de busca */
+    width: 320px;
+    /* Largura fixa para não quebrar layout */
+    background: linear-gradient(135deg, rgba(45, 0, 128, 0.98), rgba(72, 0, 189, 0.98));
+    border: 2px solid #7e30ff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(126, 48, 255, 0.3);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 9999;
+    display: none;
+    backdrop-filter: blur(10px);
+    animation: slideDown 0.2s ease-out;
+}
+
+.search-dropdown.active {
+    display: block;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar customizada */
+.search-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.search-dropdown::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.search-dropdown::-webkit-scrollbar-thumb {
+    background: #7e30ff;
+    border-radius: 10px;
+}
+
+.search-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #c699ff;
+}
+
+/* Seção de Resultados */
+.search-section {
+    padding: 5px 0;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+/* Mensagem de Vazio */
+.search-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #b895d4;
+}
+
+.search-empty i {
+    font-size: 3rem;
+    color: #7e30ff;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.search-empty p {
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ============================================
+   📱 RESPONSIVO
+   ============================================ */
+
+@media (max-width: 768px) {
+    .search-dropdown {
+        position: fixed;
+        top: 60px;
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-height: calc(100vh - 80px);
+    }
+}
+
+@media (max-width: 480px) {
+    .search-dropdown {
+        top: 55px;
+        left: 5px;
+        right: 5px;
+    }
+}
+
+/* ============================================
+   🎨 DARK MODE
+   ============================================ */
+
+/* ============================================
+   🔍 SISTEMA DE BUSCA GLOBAL - ESTILOS
+   ============================================ */
+
+/* Container da Busca */
+.busca {
+    position: relative;
+}
+
+/* Dropdown de Resultados */
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    /* Alinhar à direita da barra de busca */
+    width: 320px;
+    /* Largura fixa para não quebrar layout */
+    background: linear-gradient(135deg, rgba(45, 0, 128, 0.98), rgba(72, 0, 189, 0.98));
+    border: 2px solid #7e30ff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(126, 48, 255, 0.3);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 9999;
+    display: none;
+    backdrop-filter: blur(10px);
+    animation: slideDown 0.2s ease-out;
+}
+
+.search-dropdown.active {
+    display: block;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar customizada */
+.search-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.search-dropdown::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.search-dropdown::-webkit-scrollbar-thumb {
+    background: #7e30ff;
+    border-radius: 10px;
+}
+
+.search-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #c699ff;
+}
+
+/* Seção de Resultados */
+.search-section {
+    padding: 5px 0;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+/* Item de Resultado */
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    height: 110px;
+    /* Altura fixa igual ao card de amigo */
+    cursor: pointer;
+    transition: background 0.2s ease;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(126, 48, 255, 0.1);
+}
+
+.search-item:last-child {
+    border-bottom: none;
+}
+
+.search-item:hover {
+    background: rgba(126, 48, 255, 0.2);
+}
+
+.search-item:active {
+    background: rgba(126, 48, 255, 0.4);
+}
+
+/* Avatar do Resultado */
+.search-item-avatar {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 8px;
+    /* Borda arredondada 8px */
+    border: 2px solid #7e30ff;
+}
+
+/* Seta de Navegação */
+.search-item-arrow {
+    color: #7e30ff;
+    font-size: 1.2rem;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+.search-item:hover .search-item-arrow {
+    opacity: 1;
+}
+
+/* Mensagem de Vazio */
+.search-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #b895d4;
+}
+
+.search-empty i {
+    font-size: 3rem;
+    color: #7e30ff;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.search-empty p {
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ============================================
+   📱 RESPONSIVO
+   ============================================ */
+
+@media (max-width: 768px) {
+    .search-dropdown {
+        position: fixed;
+        top: 60px;
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-height: calc(100vh - 80px);
+    }
+
+    .search-item {
+        padding: 10px;
+        height: 100px;
+    }
+
+    .search-item-avatar {
+        width: 60px;
+        /* Reduzir levemente no mobile */
+        height: 60px;
+        min-width: 60px;
+        min-height: 60px;
+    }
+
+    .search-item-nome {
+        font-size: 1rem;
+    }
+
+    .search-item-meta {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-dropdown {
+        top: 55px;
+        left: 5px;
+        right: 5px;
+    }
+}
+
+/* ============================================
+   🎨 DARK MODE
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .search-dropdown {
+        background: linear-gradient(135deg, rgba(45, 0, 128, 0.98), rgba(72, 0, 189, 0.98));
+    }
+}
