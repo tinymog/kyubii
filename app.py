@@ -31,6 +31,10 @@ os.makedirs("img", exist_ok=True)
 app = Flask(__name__, static_folder=".")
 CORS(app)
 
+@app.route("/api/status")
+def status():
+    return jsonify({"status": "online", "version": "discord-oauth-enabled"})
+
 
 # ================ JSON FILES ================
 COMUNIDADES_FILE = "comunidades.json"
@@ -127,6 +131,80 @@ def salvar_amigos(amigos):
 # ================ HASH SENHA ================
 def hash_senha(senha):
     return hashlib.sha256(senha.encode()).hexdigest()
+
+
+# ================ DISCORD AUTHENTICATION ================
+DISCORD_CLIENT_ID = "1433249939127013560"
+DISCORD_CLIENT_SECRET = "IhbvXn74ysZ5BRJxyEqguZ0E4c_ZkAaY"
+DISCORD_REDIRECT_URI = "http://localhost:5500/pages/perfil.html"
+DISCORD_API_URL = "https://discord.com/api"
+
+@app.route("/auth/discord/login")
+def discord_login():
+    """Redireciona para o OAuth2 do Discord"""
+    params = {
+        "client_id": DISCORD_CLIENT_ID,
+        "redirect_uri": DISCORD_REDIRECT_URI,
+        "response_type": "code",
+        "scope": "identify",
+    }
+    login_url = f"{DISCORD_API_URL}/oauth2/authorize?{urlencode(params)}"
+    print(f"🔗 Redirecionando para Discord: {login_url}")
+    return redirect(login_url)
+
+@app.route("/auth/discord/callback")
+def discord_callback():
+    """Troca o code pelo token e busca dados do usuário"""
+    code = request.args.get("code")
+    if not code:
+        return jsonify({"error": "No code provided"}), 400
+
+    try:
+        # 1. Trocar code por token
+        data = {
+            "client_id": DISCORD_CLIENT_ID,
+            "client_secret": DISCORD_CLIENT_SECRET,
+            "grant_type": "authorization_code",
+            "code": code,
+            "redirect_uri": DISCORD_REDIRECT_URI,
+        }
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        
+        print("🔄 Trocando code por token...")
+        token_response = requests.post(
+            f"{DISCORD_API_URL}/oauth2/token", 
+            data=data, 
+            headers=headers,
+            timeout=10
+        )
+        token_response.raise_for_status()
+        token_data = token_response.json()
+        access_token = token_data.get("access_token")
+
+        # 2. Buscar dados do usuário
+        print("👤 Buscando dados do usuário...")
+        user_headers = {"Authorization": f"Bearer {access_token}"}
+        user_response = requests.get(
+            f"{DISCORD_API_URL}/users/@me", 
+            headers=user_headers,
+            timeout=10
+        )
+        user_response.raise_for_status()
+        user_data = user_response.json()
+
+        print(f"✅ Usuário Discord: {user_data.get('username')}")
+        
+        return jsonify({
+            "id": user_data.get("id"),
+            "username": user_data.get("username"),
+            "discriminator": user_data.get("discriminator"),
+            "avatar": user_data.get("avatar"),
+            "global_name": user_data.get("global_name")
+        })
+
+    except Exception as e:
+        print(f"❌ Erro no login Discord: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 
 # ================ STEAM AUTHENTICATION ================

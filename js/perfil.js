@@ -222,6 +222,9 @@ function carregarConexoes(usuario) {
     const container = document.getElementById('conexoes-conteudo');
     if (!container) return;
 
+    const discordUsername = localStorage.getItem('discordUsername');
+    const discordConnected = localStorage.getItem('discordConnected') === 'true';
+
     const conexoes = [
         {
             nome: 'Steam',
@@ -233,9 +236,9 @@ function carregarConexoes(usuario) {
         {
             nome: 'Discord',
             icone: '💜',
-            conectado: !!usuario.conexoes?.discord,
+            conectado: discordConnected,
             tipo: 'discord',
-            dados: usuario.conexoes?.discord
+            dados: discordUsername || usuario.conexoes?.discord
         },
         {
             nome: 'Spotify',
@@ -246,29 +249,35 @@ function carregarConexoes(usuario) {
         }
     ];
 
-    let html = '<div style="display: grid; gap: 15px;">';
+    let html = ''; // Remover container inline, usar a classe CSS .conexoes-grid do HTML
     conexoes.forEach(c => {
         const statusTexto = c.conectado ? '🟢 Conectado' : '🔴 Desconectado';
         const btnTexto = c.conectado ? 'Desconectar' : 'Conectar';
 
+        // Se for Discord e estiver conectado, mostrar o username formatado
+        let displayId = c.dados;
+        if (c.tipo === 'discord' && c.conectado) {
+            displayId = `<span style="color: #7289da; font-weight: bold;">${c.dados}</span>`;
+        } else if (c.dados) {
+            displayId = `ID: ${c.dados}`;
+        }
+
         html += `
-        <div style="border: 2px solid #7e30ff; padding: 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <div style="font-size: 2rem; margin-bottom: 8px;">${c.icone}</div>
-                <h4 style="color: white; margin: 0 0 5px 0; font-size: 1.1rem;">${c.nome}</h4>
-                <p style="color: ${c.conectado ? '#00ff00' : '#ff6b6b'}; font-size: 0.9rem; margin: 0;">
-                    ${statusTexto}
-                </p>
-                ${c.conectado && c.dados ? `<p style="color: #9d5fd4; font-size: 0.8rem; margin: 5px 0 0 0;">ID: ${c.dados}</p>` : ''}
-            </div>
+        <div class="card-conexao ${c.conectado ? '' : 'desconectado'}">
+            <div class="icon-conexao">${c.icone}</div>
+            <h5>${c.nome}</h5>
+            <p class="status">
+                <span class="status-badge ${c.conectado ? 'conectado' : 'desconectado'}">${statusTexto}</span>
+            </p>
+            ${c.conectado && c.dados ? `<p class="id">${displayId}</p>` : ''}
             <button onclick="handleConexao('${c.tipo}')" 
-                    style="padding: 10px 20px; background: ${c.conectado ? '#ff4444' : '#7e30ff'}; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                    class="btn-conexao"
+                    style="background: ${c.conectado ? '#ff4444' : 'linear-gradient(135deg, #7e30ff, #5200d1)'};">
                 ${btnTexto}
             </button>
         </div>
         `;
     });
-    html += '</div>';
 
     container.innerHTML = html;
 }
@@ -284,7 +293,11 @@ window.handleConexao = function (tipo) {
             window.location.href = './steam-auth.html';
         }
     } else if (tipo === 'discord') {
-        alert('Discord: Conexão em desenvolvimento');
+        if (localStorage.getItem('discordConnected') === 'true') {
+            DiscordSync.desconectar();
+        } else {
+            DiscordSync.conectarDiscord();
+        }
     } else if (tipo === 'spotify') {
         alert('Spotify: Conexão em desenvolvimento');
     }
@@ -350,29 +363,52 @@ window.carregarJogos = function () {
 
     console.log(`✅ Renderizando ${biblioteca.length} jogos`);
 
-    let html = `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px;">`;
+    // Carregar favoritos do usuário
+    const favoritos = carregarFavoritos(usuario.id);
 
+    let html = `<div class="jogos-grid">`;
     biblioteca.forEach(jogo => {
         const nome = jogo.nome || jogo.name || 'Unknown';
         const imagem = jogo.imagem || jogo.img || 'https://via.placeholder.com/180x250?text=Sem+Imagem';
         const horas = jogo.horas || 0;
+        const appid = jogo.id || jogo.appid;
+        const isFavorito = favoritos.includes(appid);
 
         html += `
-        <div style="
-            border: 2px solid #7e30ff;
-            border-radius: 8px;
-            overflow: hidden;
-            background: rgba(45,0,80,0.5);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        " 
-        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 20px #7e30ff';"
-        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+        <div class="card-jogo">
+            
+            <button 
+                onclick="event.stopPropagation(); toggleFavorito('${appid}', '${usuario.id}'); return false;" 
+                class="btn-favoritar ${isFavorito ? 'favoritado' : ''}"
+                id="fav-${appid}"
+                style="
+                    position: absolute;
+                    top: 8px;
+                    right: 8px;
+                    background: ${isFavorito ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)'};
+                    border: 2px solid ${isFavorito ? '#ffd700' : '#7e30ff'};
+                    border-radius: 50%;
+                    width: 36px;
+                    height: 36px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    font-size: 1.2rem;
+                    z-index: 10;
+                    transition: all 0.3s ease;
+                "
+                onmouseover="this.style.transform='scale(1.1)'; this.style.background='rgba(126, 48, 255, 0.3)';"
+                onmouseout="this.style.transform='scale(1)'; this.style.background='${isFavorito ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)'}';"
+            >
+                ${isFavorito ? '⭐' : '☆'}
+            </button>
+
             <img src="${imagem}" 
                  alt="${nome}" 
-                 style="width: 100%; height: 200px; object-fit: cover; display: block;"
+                 class="jogo-imagem"
                  onerror="this.src='https://via.placeholder.com/180x250?text=Game';">
-            <div style="padding: 10px; background: rgba(0,0,0,0.3);">
+            <div style="padding: 10px; background: rgba(0,0,0,0.3); flex: 1;">
                 <p style="
                     color: #c699ff; 
                     margin: 0 0 5px 0; 
@@ -395,6 +431,55 @@ window.carregarJogos = function () {
     container.innerHTML = html;
     console.log('✅ Jogos renderizados!');
 };
+
+// Funções de Favoritos
+window.carregarFavoritos = function (userId) {
+    const chave = `favoritos_${userId}`;
+    const favoritosStr = localStorage.getItem(chave);
+    if (favoritosStr && favoritosStr !== 'null') {
+        try {
+            return JSON.parse(favoritosStr);
+        } catch (e) {
+            console.error('❌ Erro ao carregar favoritos:', e);
+            return [];
+        }
+    }
+    return [];
+};
+
+window.salvarFavoritos = function (userId, favoritos) {
+    const chave = `favoritos_${userId}`;
+    localStorage.setItem(chave, JSON.stringify(favoritos));
+    console.log('💾 Favoritos salvos:', favoritos.length);
+};
+
+window.toggleFavorito = function (appid, userId) {
+    let favoritos = carregarFavoritos(userId);
+    const index = favoritos.indexOf(appid);
+
+    if (index >= 0) {
+        // Remover dos favoritos
+        favoritos.splice(index, 1);
+        console.log('❌ Removido dos favoritos:', appid);
+    } else {
+        // Adicionar aos favoritos
+        favoritos.push(appid);
+        console.log('⭐ Adicionado aos favoritos:', appid);
+    }
+
+    salvarFavoritos(userId, favoritos);
+
+    // Atualizar visual do botão
+    const btn = document.getElementById(`fav-${appid}`);
+    if (btn) {
+        const isFavorito = favoritos.includes(appid);
+        btn.innerHTML = isFavorito ? '⭐' : '☆';
+        btn.className = isFavorito ? 'btn-favoritar favoritado' : 'btn-favoritar';
+        btn.style.background = isFavorito ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
+        btn.style.borderColor = isFavorito ? '#ffd700' : '#7e30ff';
+    }
+};
+
 
 function abrirModalBanner(usuario) {
     const modal = document.getElementById('modalBanner');

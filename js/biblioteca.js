@@ -161,7 +161,20 @@ class BibliotecaSteam {
         .sort((a, b) => (b.horasRecentes || 0) - (a.horasRecentes || 0))
         .slice(0, 10);
     } else if (tipo === 'favoritos') {
-      this.jogosFiltrados = this.jogos.filter(j => (j.horas || 0) > 50);
+      // Carregar favoritos do localStorage
+      const chave = `favoritos_${this.usuarioLogado.id}`;
+      const favoritosStr = localStorage.getItem(chave);
+      let favoritos = [];
+      if (favoritosStr && favoritosStr !== 'null') {
+        try {
+          favoritos = JSON.parse(favoritosStr);
+        } catch (e) {
+          console.error('❌ Erro ao carregar favoritos:', e);
+        }
+      }
+      // Filtrar apenas jogos favoritados
+      this.jogosFiltrados = this.jogos.filter(j => favoritos.includes(j.appid || j.id));
+      console.log('⭐ Favoritos:', favoritos.length, 'jogos');
     }
 
     console.log(`🔍 Filtrando: ${this.jogosFiltrados.length} jogos`);
@@ -199,8 +212,43 @@ class BibliotecaSteam {
     const imagem = jogo.imagem;
     const horas = jogo.horas || 0;
 
+    // Verificar se está nos favoritos
+    const chave = `favoritos_${this.usuarioLogado.id}`;
+    const favoritosStr = localStorage.getItem(chave);
+    let favoritos = [];
+    if (favoritosStr && favoritosStr !== 'null') {
+      try {
+        favoritos = JSON.parse(favoritosStr);
+      } catch (e) { }
+    }
+    const isFavorito = favoritos.includes(id);
+
     return `
-  <div class="jogo-card" data-jogo-id="${id}" style="cursor: pointer;" onclick="window.open('https://store.steampowered.com/app/${id}', '_blank')">
+  <div class="jogo-card" data-jogo-id="${id}" style="position: relative; cursor: pointer;" onclick="window.open('https://store.steampowered.com/app/${id}', '_blank')">
+        <button 
+          onclick="event.stopPropagation(); toggleFavoritoBiblioteca('${id}'); return false;" 
+          class="btn-favoritar ${isFavorito ? 'favoritado' : ''}"
+          id="fav-lib-${id}"
+          style="
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: ${isFavorito ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)'};
+            border: 2px solid ${isFavorito ? '#ffd700' : '#7e30ff'};
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            z-index: 10;
+            transition: all 0.3s ease;
+          "
+        >
+          ${isFavorito ? '⭐' : '☆'}
+        </button>
         <img src="${imagem}" alt="${nome}" class="jogo-imagem" loading="lazy">
         <div class="jogo-info">
           <div class="jogo-nome">${nome}</div>
@@ -247,6 +295,53 @@ class BibliotecaSteam {
     if (bibliotecaContainer) bibliotecaContainer.style.display = 'none';
   }
 }
+
+// Função global para toggle de favoritos na biblioteca
+window.toggleFavoritoBiblioteca = function (appid) {
+
+  const usuario = auth.getUsuarioLogado();
+  if (!usuario) return;
+
+  const chave = `favoritos_${usuario.id}`;
+  const favoritosStr = localStorage.getItem(chave);
+  let favoritos = [];
+
+  if (favoritosStr && favoritosStr !== 'null') {
+    try {
+      favoritos = JSON.parse(favoritosStr);
+    } catch (e) {
+      console.error('❌ Erro ao carregar favoritos:', e);
+    }
+  }
+
+  const index = favoritos.indexOf(appid);
+
+  if (index >= 0) {
+    favoritos.splice(index, 1);
+    console.log('❌ Removido dos favoritos:', appid);
+  } else {
+    favoritos.push(appid);
+    console.log('⭐ Adicionado aos favoritos:', appid);
+  }
+
+  localStorage.setItem(chave, JSON.stringify(favoritos));
+
+  // Atualizar visual do botão
+  const btn = document.getElementById(`fav-lib-${appid}`);
+  if (btn) {
+    const isFavorito = favoritos.includes(appid);
+    btn.innerHTML = isFavorito ? '⭐' : '☆';
+    btn.style.background = isFavorito ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
+    btn.style.borderColor = isFavorito ? '#ffd700' : '#7e30ff';
+  }
+
+  // Se estiver no filtro de favoritos, recarregar a lista
+  const radioFavoritos = document.querySelector('input[name="filtro"][value="favoritos"]');
+  if (radioFavoritos && radioFavoritos.checked) {
+    // Forçar re-render da biblioteca
+    location.reload();
+  }
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🎮 DOM Carregado');

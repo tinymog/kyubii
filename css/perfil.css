@@ -292,8 +292,8 @@ body {
 
 .grid-conexoes,
 .conexoes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 15px;
     margin-top: 15px;
 }
@@ -305,6 +305,8 @@ body {
     padding: 20px;
     text-align: center;
     transition: all 0.2s;
+    width: 200px;
+    flex-shrink: 0;
 }
 
 .card-conexao.desconectado {
@@ -378,82 +380,73 @@ body {
 
 .grid-jogos,
 .jogos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     margin-top: 15px;
+    width: 100%;
 }
 
 .card-jogo {
+    position: relative;
     background: linear-gradient(135deg, #1a0052, #0d001f);
-    border: 1px solid #7e30ff;
+    border: 2px solid #7e30ff;
     border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    width: 180px;
+    min-height: 280px;
+    max-height: 320px;
+    flex-shrink: 0;
 }
 
 .card-jogo:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(126, 48, 255, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(126, 48, 255, 0.4);
 }
 
 .jogo-imagem {
     width: 100%;
-    height: 120px;
+    height: 200px;
+    min-height: 200px;
     object-fit: cover;
     background: #0d001f;
 }
 
-.card-jogo>div,
-.card-jogo>p,
-.card-jogo>a {
-    padding: 0 12px;
-}
-
-.card-jogo h5 {
-    color: #fff;
-    margin: 12px 12px 6px;
-    font-size: 0.95rem;
-    line-height: 1.3;
-    min-height: 2.6em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.jogo-playtime {
-    color: #b895d4;
-    font-size: 0.8rem;
-    margin: 4px 12px;
-    padding: 0;
-}
-
-.btn-jogo {
-    background: linear-gradient(135deg, #7e30ff, #5200d1);
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-decoration: none;
-    text-align: center;
-    margin: 8px 12px 12px;
-    transition: opacity 0.2s;
-    display: inline-block;
-    width: calc(100% - 24px);
-}
-
 .btn-jogo:hover {
     opacity: 0.9;
+}
+
+/* Botão de Favoritar */
+.btn-favoritar {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #7e30ff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.btn-favoritar:hover {
+    background: rgba(126, 48, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.btn-favoritar.favoritado {
+    background: rgba(126, 48, 255, 0.5);
+    border-color: #ffd700;
 }
 
 /* ============ RESPONSIVO ============ */
@@ -468,12 +461,23 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .grid-conexoes {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    .grid-conexoes,
+    .conexoes-grid {
+        gap: 12px;
     }
 
-    .grid-jogos {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    .card-conexao {
+        width: 160px;
+    }
+
+    .grid-jogos,
+    .jogos-grid {
+        gap: 15px;
+    }
+
+    .card-jogo {
+        width: 140px;
+        min-height: 240px;
     }
 
     .aba-conteudo {
