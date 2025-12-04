@@ -1,7 +1,32 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PERFIL.CSS - REORGANIZADO E OTIMIZADO
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ============ RESET E BASE ============ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+:root {
+    /* Gaps padronizados */
+    --gap-xs: 8px;
+    --gap-sm: 12px;
+    --gap-md: 16px;
+    --gap-lg: 20px;
+    --gap-xl: 30px;
+
+    /* Cores */
+    --color-primary: #7e30ff;
+    --color-secondary: #c699ff;
+    --color-dark: #4800bd;
+    --color-gradient-start: #1d064d;
+    --color-gradient-end: #4800bd;
+
+    /* Espaçamentos */
+    --container-padding: 20px;
+    --max-width: 1400px;
 }
 
 body {
@@ -11,20 +36,31 @@ body {
     overflow-x: hidden;
 }
 
-/* ============ NAVBAR ============ */
+/* ============ LAYOUT PRINCIPAL ============ */
 
+.perfil-main {
+    width: 100%;
+}
 
-/* ============ PERFIL HEADER ============ */
+.perfil-header-section,
+.perfil-info-section,
+.perfil-tabs-section {
+    width: 100%;
+}
+
+/* ============ PERFIL HEADER (BANNER) ============ */
+
 .perfil-header {
     position: relative;
+    padding: 0 var(--container-padding);
 }
 
 .perfil-cover {
     width: 100%;
-    height: 200px;
-    min-height: 200px;
+    height: 350px;
+    min-height: 350px;
     border-radius: 18px;
-    background: linear-gradient(135deg, #1d064d, #4800bd);
+    background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -44,36 +80,24 @@ body {
     background-attachment: scroll !important;
 }
 
-.btn-editar-banner {
-    background: linear-gradient(135deg, #6a00ff, #4800bd);
-    color: #ffffff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.btn-editar-banner:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(106, 0, 255, 0.5);
-}
-
 /* ============ CARD PERFIL ============ */
+
 .card-perfil {
     background: rgba(45, 0, 128, 0.3);
-    border: 2px solid #4800bd;
+    border: 2px solid var(--color-dark);
     border-radius: 18px;
-    padding: 30px;
-    margin: 0 20px 30px 20px;
+    padding: var(--gap-xl);
+    margin: 0 var(--container-padding) var(--container-padding) var(--container-padding);
     backdrop-filter: blur(10px);
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .info-perfil {
     display: flex;
-    align-items: center;
-    gap: 30px;
+    align-items: flex-start;
+    gap: var(--gap-xl);
     justify-content: space-between;
     flex-wrap: wrap;
 }
@@ -82,8 +106,9 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    border: 4px solid #c699ff;
+    border: 4px solid var(--color-secondary);
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 .dados-perfil {
@@ -106,17 +131,37 @@ body {
 .botoes-perfil {
     display: flex;
     gap: 10px;
+    align-items: flex-start;
 }
 
-.btn-editar {
-    background: linear-gradient(135deg, #c699ff, #6a00ff);
-    color: #ffffff;
+/* Botões do perfil */
+.btn-editar-banner,
+.btn-editar,
+.btn-logout {
     border: none;
     padding: 12px 20px;
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #ffffff;
+}
+
+.btn-editar-banner {
+    background: linear-gradient(135deg, #6a00ff, var(--color-dark));
+}
+
+.btn-editar {
+    background: linear-gradient(135deg, var(--color-secondary), #6a00ff);
+}
+
+.btn-logout {
+    background: linear-gradient(135deg, #ff0080, #ff00ff);
+}
+
+.btn-editar-banner:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(106, 0, 255, 0.5);
 }
 
 .btn-editar:hover {
@@ -124,25 +169,17 @@ body {
     box-shadow: 0 0 15px rgba(198, 153, 255, 0.5);
 }
 
-.btn-logout {
-    background: linear-gradient(135deg, #ff0080, #ff00ff);
-    color: #ffffff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
 .btn-logout:hover {
     transform: scale(1.05);
     box-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
 }
 
-/* ============ ABAS ============ */
+/* ============ SISTEMA DE ABAS ============ */
+
 .abas-container {
-    padding: 0 20px 15px 20px;
+    padding: 0 var(--container-padding) var(--container-padding) var(--container-padding);
+    max-width: var(--max-width);
+    margin: 0 auto;
 }
 
 .abas {
@@ -151,7 +188,7 @@ body {
     background: rgba(25, 0, 45, 0.70);
     border-radius: 16px 16px 0 0;
     padding: 0 7px;
-    border-bottom: 2px solid #7e30ff;
+    border-bottom: 2px solid var(--color-primary);
     overflow-x: auto;
     min-height: 56px;
 }
@@ -187,7 +224,7 @@ body {
 }
 
 .aba-btn:hover:not(.aba-ativa) {
-    color: #c699ff;
+    color: var(--color-secondary);
     background: rgba(98, 0, 255, 0.16);
 }
 
@@ -206,22 +243,10 @@ body {
     display: block;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 .aba-conteudo h3 {
-    margin-bottom: 20px;
+    margin-bottom: var(--gap-lg);
     font-size: 1.5rem;
-    color: #c699ff;
+    color: var(--color-secondary);
 }
 
 .aba-conteudo h4 {
@@ -230,23 +255,25 @@ body {
     color: #e6ccff;
 }
 
-/* ============ COMUNIDADES ============ */
+/* ============ ABA: COMUNIDADES ============ */
 
 .grid-comunidades,
 .comunidades-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     margin-top: 15px;
 }
 
 .card-comunidade {
     background: linear-gradient(135deg, #2d0080, #1a0052);
-    border: 1px solid #7e30ff;
+    border: 1px solid var(--color-primary);
     border-radius: 12px;
-    padding: 16px;
+    padding: var(--gap-md);
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
+    width: 280px;
+    flex-shrink: 0;
 }
 
 .card-comunidade:hover {
@@ -256,7 +283,7 @@ body {
 
 .card-comunidade h5 {
     color: #fff;
-    margin-bottom: 8px;
+    margin-bottom: var(--gap-xs);
     font-size: 1.1rem;
 }
 
@@ -269,14 +296,14 @@ body {
 .card-comunidade .membros {
     color: #9d5fd4;
     font-size: 0.85rem;
-    margin-bottom: 12px;
+    margin-bottom: var(--gap-sm);
 }
 
 .card-comunidade .btn-visitar {
-    background: linear-gradient(135deg, #7e30ff, #5200d1);
+    background: linear-gradient(135deg, var(--color-primary), #5200d1);
     color: #fff;
     border: none;
-    padding: 8px 16px;
+    padding: var(--gap-xs) var(--gap-md);
     border-radius: 6px;
     cursor: pointer;
     font-weight: 600;
@@ -288,7 +315,10 @@ body {
     opacity: 0.9;
 }
 
-/* ============ CONEXÕES ============ */
+/* ============ ABA: AMIGOS ============ */
+/* Estilos de amigos estão em perfil-friends.css */
+
+/* ============ ABA: CONEXÕES ============ */
 
 .grid-conexoes,
 .conexoes-grid {
@@ -300,9 +330,9 @@ body {
 
 .card-conexao {
     background: linear-gradient(135deg, #1a0052, #0d001f);
-    border: 2px solid #7e30ff;
+    border: 2px solid var(--color-primary);
     border-radius: 12px;
-    padding: 20px;
+    padding: var(--gap-lg);
     text-align: center;
     transition: all 0.2s;
     width: 200px;
@@ -325,7 +355,7 @@ body {
 
 .card-conexao h5 {
     color: #fff;
-    margin-bottom: 12px;
+    margin-bottom: var(--gap-sm);
     font-size: 1.1rem;
 }
 
@@ -350,15 +380,15 @@ body {
 .card-conexao .id {
     color: #9d5fd4;
     font-size: 0.8rem;
-    margin-bottom: 12px;
+    margin-bottom: var(--gap-sm);
     word-break: break-all;
 }
 
 .card-conexao .btn-conexao {
-    background: linear-gradient(135deg, #7e30ff, #5200d1);
+    background: linear-gradient(135deg, var(--color-primary), #5200d1);
     color: #fff;
     border: none;
-    padding: 10px 16px;
+    padding: 10px var(--gap-md);
     border-radius: 6px;
     cursor: pointer;
     font-weight: 600;
@@ -366,11 +396,23 @@ body {
     transition: opacity 0.2s;
 }
 
+/* Garantir que links com btn-conexao tenham os mesmos estilos */
+.card-conexao a.btn-conexao {
+    display: block;
+    text-decoration: none;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: normal;
+}
+
 .card-conexao .btn-conexao:hover {
     opacity: 0.9;
 }
 
-/* ============ JOGOS (BIBLIOTECA) ============ */
+/* ============ ABA: JOGOS (BIBLIOTECA) ============ */
 
 .total-jogos {
     color: #b895d4;
@@ -382,18 +424,19 @@ body {
 .jogos-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: var(--gap-lg);
     margin-top: 15px;
     width: 100%;
+    justify-content: flex-start;
 }
 
 .card-jogo {
     position: relative;
     background: linear-gradient(135deg, #1a0052, #0d001f);
-    border: 2px solid #7e30ff;
+    border: 2px solid var(--color-primary);
     border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s, opacity 0.2s;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -423,10 +466,10 @@ body {
 /* Botão de Favoritar */
 .btn-favoritar {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: var(--gap-xs);
+    right: var(--gap-xs);
     background: rgba(0, 0, 0, 0.7);
-    border: 2px solid #7e30ff;
+    border: 2px solid var(--color-primary);
     border-radius: 50%;
     width: 36px;
     height: 36px;
@@ -449,7 +492,7 @@ body {
     border-color: #ffd700;
 }
 
-/* ============ SEÇÃO DE FAVORITOS NO PERFIL ============ */
+/* Seção de Favoritos */
 .favoritos-secao {
     margin-bottom: 35px;
 }
@@ -463,7 +506,7 @@ body {
 }
 
 .biblioteca-secao h4 {
-    color: #c699ff;
+    color: var(--color-secondary);
     font-size: 1.2rem;
     margin-bottom: 18px;
     letter-spacing: 0.5px;
@@ -472,12 +515,12 @@ body {
 .divisor {
     height: 2px;
     background: linear-gradient(90deg, transparent, rgba(126, 48, 255, 0.5), transparent);
-    margin: 30px 0;
+    margin: var(--gap-xl) 0;
     border-radius: 1px;
 }
 
 .jogo-info {
-    padding: 12px;
+    padding: var(--gap-sm);
     background: rgba(29, 6, 77, 0.5);
     backdrop-filter: blur(5px);
 }
@@ -498,54 +541,56 @@ body {
     font-weight: 500;
 }
 
-
-/* ============ RESPONSIVO ============ */
-
-@media (max-width: 768px) {
-    .abas {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .grid-comunidades {
-        grid-template-columns: 1fr;
-    }
-
-    .grid-conexoes,
-    .conexoes-grid {
-        gap: 12px;
-    }
-
-    .card-conexao {
-        width: 160px;
-    }
-
-    .grid-jogos,
-    .jogos-grid {
-        gap: 15px;
-    }
-
-    .card-jogo {
-        width: 140px;
-        min-height: 240px;
-    }
-
-    .aba-conteudo {
-        padding: 16px 12px;
-    }
+/* Botão favoritar no perfil */
+.card-jogo .btn-favoritar-perfil {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(126, 48, 255, 0.5);
+    border: 2px solid #ffd700;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 10;
+    transition: all 0.3s ease;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+.card-jogo .btn-favoritar-perfil:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
+
+.card-jogo .jogo-info {
+    padding: 12px;
+    background: rgba(29, 6, 77, 0.5);
+    backdrop-filter: blur(5px);
+    flex: 1;
+}
+
+.card-jogo .jogo-info .jogo-nome {
+    color: #c699ff;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-jogo .jogo-info .jogo-horas {
+    color: #9d5fd4;
+    margin: 0;
+    font-size: 0.8rem;
+}
+
 
 /* ============ MODAIS ============ */
+
 .modal {
     display: none;
     position: fixed;
@@ -561,9 +606,9 @@ body {
 
 .modal-conteudo {
     background: linear-gradient(135deg, rgba(45, 0, 128, 0.9), rgba(72, 0, 189, 0.9));
-    border: 2px solid #c699ff;
+    border: 2px solid var(--color-secondary);
     border-radius: 18px;
-    padding: 30px;
+    padding: var(--gap-xl);
     max-width: 500px;
     width: 90%;
     position: relative;
@@ -576,7 +621,7 @@ body {
     right: 15px;
     background: transparent;
     border: none;
-    color: #c699ff;
+    color: var(--color-secondary);
     font-size: 1.5rem;
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -588,20 +633,21 @@ body {
 
 .modal-conteudo h2 {
     font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: #c699ff;
+    margin-bottom: var(--gap-lg);
+    color: var(--color-secondary);
     text-align: center;
 }
 
 /* ============ BANNER OPCOES ============ */
+
 .banner-opcoes {
-    margin-bottom: 20px;
+    margin-bottom: var(--gap-lg);
 }
 
 .opcao-gradiente h3,
 .opcao-url h3 {
     font-size: 1rem;
-    color: #c699ff;
+    color: var(--color-secondary);
     margin-bottom: 10px;
 }
 
@@ -609,7 +655,7 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: var(--gap-lg);
 }
 
 .cores-banner input[type="radio"] {
@@ -635,10 +681,10 @@ body {
 
 .opcao-url input {
     width: 100%;
-    padding: 12px;
+    padding: var(--gap-sm);
     background: rgba(0, 0, 0, 0.3);
-    border: 2px solid #4800bd;
-    border-radius: 8px;
+    border: 2px solid var(--color-dark);
+    border-radius: var(--gap-xs);
     color: #ffffff;
     font-size: 0.95rem;
     margin-bottom: 15px;
@@ -648,14 +694,15 @@ body {
     color: #888888;
 }
 
-/* ============ FORMULÁRIO ============ */
+/* ============ FORMULÁRIOS ============ */
+
 .form-grupo {
     margin-bottom: 15px;
 }
 
 .form-grupo label {
     display: block;
-    color: #c699ff;
+    color: var(--color-secondary);
     font-weight: 600;
     margin-bottom: 5px;
 }
@@ -663,10 +710,10 @@ body {
 .form-grupo input,
 .form-grupo textarea {
     width: 100%;
-    padding: 12px;
+    padding: var(--gap-sm);
     background: rgba(0, 0, 0, 0.3);
-    border: 2px solid #4800bd;
-    border-radius: 8px;
+    border: 2px solid var(--color-dark);
+    border-radius: var(--gap-xs);
     color: #ffffff;
     font-size: 0.95rem;
     font-family: 'Poppins', sans-serif;
@@ -680,7 +727,7 @@ body {
 .form-grupo input:focus,
 .form-grupo textarea:focus {
     outline: none;
-    border-color: #c699ff;
+    border-color: var(--color-secondary);
     box-shadow: 0 0 10px rgba(198, 153, 255, 0.5);
 }
 
@@ -688,17 +735,18 @@ body {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 3px solid #c699ff;
+    border: 3px solid var(--color-secondary);
     object-fit: cover;
     margin-top: 10px;
 }
 
 /* ============ BOTÕES SALVAR ============ */
+
 .btn-salvar-banner,
 .btn-salvar-editar {
     width: 100%;
     padding: 15px;
-    background: linear-gradient(135deg, #c699ff, #6a00ff);
+    background: linear-gradient(135deg, var(--color-secondary), #6a00ff);
     color: #ffffff;
     border: none;
     border-radius: 10px;
@@ -714,11 +762,12 @@ body {
     box-shadow: 0 0 20px rgba(198, 153, 255, 0.6);
 }
 
-/* FOOTER */
+/* ============ FOOTER ============ */
+
 footer {
     width: 100%;
     text-align: left;
-    padding: 10px 30px;
+    padding: 10px var(--gap-xl);
     font-size: 0.9rem;
     color: #a64eff;
     position: fixed;
@@ -733,16 +782,86 @@ footer a {
 }
 
 footer a:hover {
-    color: #c699ff;
+    color: var(--color-secondary);
 }
 
-/* ============ RESPONSIVE ============ */
-@media (max-width: 768px) {
+/* ============ ANIMAÇÕES ============ */
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVIDADE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ============ TABLET LANDSCAPE (769px - 1024px) ============ */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .perfil-cover {
+        height: 280px;
+        min-height: 280px;
+    }
+
+    .info-perfil {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--gap-lg);
+    }
+
+    .botoes-perfil {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .aba-btn {
+        font-size: 1rem;
+        padding: 12px var(--gap-md);
+    }
+
+    .card-jogo {
+        width: 160px;
+    }
+}
+
+/* ============ MOBILE (até 768px) ============ */
+@media (max-width: 768px) {
+    :root {
+        --container-padding: 15px;
+        --gap-xl: 20px;
+    }
+
+    .perfil-cover {
+        height: 250px;
+        min-height: 250px;
+    }
+
+    .abas {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 5px;
+    }
+
+    .aba-btn {
+        padding: var(--gap-xs) var(--gap-sm);
+        font-size: 0.85rem;
+    }
+
+    .aba-conteudo {
+        padding: var(--gap-md) var(--gap-sm);
+    }
 
     .info-perfil {
         flex-direction: column;
         text-align: center;
+        align-items: center;
     }
 
     .dados-perfil {
@@ -755,24 +874,67 @@ footer a:hover {
     }
 
     .btn-editar,
+    .btn-editar-banner,
     .btn-logout {
         width: 100%;
     }
 
-    .abas {
-        gap: 5px;
+    .card-comunidade {
+        width: 100%;
+        max-width: 400px;
     }
 
-    .aba-btn {
-        padding: 8px 12px;
-        font-size: 0.85rem;
+    .grid-conexoes,
+    .conexoes-grid {
+        gap: var(--gap-sm);
+        justify-content: center;
+    }
+
+    .card-conexao {
+        width: 160px;
+    }
+
+    .grid-jogos,
+    .jogos-grid {
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .card-jogo {
+        width: 140px;
+        min-height: 240px;
     }
 
     .modal-conteudo {
-        padding: 20px;
+        padding: var(--gap-lg);
     }
 
     .cores-banner {
         grid-template-columns: 1fr;
+    }
+
+    .card-perfil {
+        padding: var(--gap-lg);
+    }
+}
+
+/* ============ SMALL MOBILE (até 480px) ============ */
+@media (max-width: 480px) {
+    .perfil-cover {
+        height: 220px;
+        min-height: 220px;
+    }
+
+    .dados-perfil h1 {
+        font-size: 1.5rem;
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .aba-conteudo h3 {
+        font-size: 1.2rem;
     }
 }

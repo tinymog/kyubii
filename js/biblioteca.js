@@ -4,6 +4,7 @@ class BibliotecaSteam {
   constructor() {
     this.jogos = [];
     this.jogosFiltrados = [];
+    this.filtroAtual = 'todos';
     this.usuarioLogado = auth.getUsuarioLogado();
     this.steamId = this.usuarioLogado?.conexoes?.steam || null;
 
@@ -172,6 +173,8 @@ class BibliotecaSteam {
   }
 
   filtrar(tipo) {
+    this.filtroAtual = tipo;
+
     if (tipo === 'todos') {
       this.jogosFiltrados = this.jogos;
     } else if (tipo === 'recent') {

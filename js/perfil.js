@@ -199,7 +199,7 @@ function carregarComunidades(usuario) {
         return;
     }
 
-    let html = '<div style="display: grid; gap: 15px;">';
+    let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">';
     minhasComunidades.forEach(com => {
         html += `
         <div style="border-left: 3px solid #7e30ff; padding: 15px; background: rgba(45,0,80,0.3); border-radius: 8px;">
@@ -243,9 +243,11 @@ function carregarConexoes(usuario) {
         {
             nome: 'Spotify',
             icone: '🎵',
-            conectado: !!usuario.conexoes?.spotify,
+            conectado: !!usuario.conexoes?.spotify?.link,
             tipo: 'spotify',
-            dados: usuario.conexoes?.spotify
+            dados: usuario.conexoes?.spotify,
+            link: usuario.conexoes?.spotify?.link,
+            username: usuario.conexoes?.spotify?.username
         }
     ];
 
@@ -254,12 +256,46 @@ function carregarConexoes(usuario) {
         const statusTexto = c.conectado ? '🟢 Conectado' : '🔴 Desconectado';
         const btnTexto = c.conectado ? 'Desconectar' : 'Conectar';
 
-        // Se for Discord e estiver conectado, mostrar o username formatado
-        let displayId = c.dados;
-        if (c.tipo === 'discord' && c.conectado) {
-            displayId = `<span style="color: #7289da; font-weight: bold;">${c.dados}</span>`;
-        } else if (c.dados) {
-            displayId = `ID: ${c.dados}`;
+        // Se for Spotify e estiver conectado, mostrar username e link
+        let displayInfo = '';
+        let botoesHtml = '';
+
+        if (c.tipo === 'spotify' && c.conectado) {
+            displayInfo = `<p class="id"><span style="color: #1DB954; font-weight: bold;">@${c.username || 'Spotify User'}</span></p>`;
+            botoesHtml = `
+                <a href="${c.link}" target="_blank" class="btn-conexao">
+                    Ver Perfil
+                </a>
+                <button onclick="editarSpotify()" class="btn-conexao" style="margin-top: 10px;">
+                    Editar
+                </button>
+            `;
+        } else if (c.tipo === 'discord' && c.conectado) {
+            displayInfo = `<p class="id"><span style="color: #7289da; font-weight: bold;">${c.dados}</span></p>`;
+            botoesHtml = `
+                <button onclick="handleConexao('${c.tipo}')" 
+                        class="btn-conexao"
+                        style="background: #ff4444;">
+                    ${btnTexto}
+                </button>
+            `;
+        } else if (c.conectado && c.dados) {
+            displayInfo = `<p class="id">ID: ${c.dados}</p>`;
+            botoesHtml = `
+                <button onclick="handleConexao('${c.tipo}')" 
+                        class="btn-conexao"
+                        style="background: ${c.conectado ? '#ff4444' : 'linear-gradient(135deg, #7e30ff, #5200d1)'}">
+                    ${btnTexto}
+                </button>
+            `;
+        } else {
+            botoesHtml = `
+                <button onclick="handleConexao('${c.tipo}')" 
+                        class="btn-conexao"
+                        style="background: linear-gradient(135deg, #7e30ff, #5200d1);">
+                    ${btnTexto}
+                </button>
+            `;
         }
 
         html += `
@@ -269,12 +305,8 @@ function carregarConexoes(usuario) {
             <p class="status">
                 <span class="status-badge ${c.conectado ? 'conectado' : 'desconectado'}">${statusTexto}</span>
             </p>
-            ${c.conectado && c.dados ? `<p class="id">${displayId}</p>` : ''}
-            <button onclick="handleConexao('${c.tipo}')" 
-                    class="btn-conexao"
-                    style="background: ${c.conectado ? '#ff4444' : 'linear-gradient(135deg, #7e30ff, #5200d1)'};">
-                ${btnTexto}
-            </button>
+            ${displayInfo}
+            ${botoesHtml}
         </div>
         `;
     });
@@ -299,7 +331,7 @@ window.handleConexao = function (tipo) {
             DiscordSync.conectarDiscord();
         }
     } else if (tipo === 'spotify') {
-        alert('Spotify: Conexão em desenvolvimento');
+        conectarSpotify();
     }
 };
 
@@ -671,3 +703,159 @@ document.addEventListener('favoritesUpdated', (e) => {
         btn.style.borderColor = added ? '#ffd700' : '#7e30ff';
     }
 });
+
+// ================ SPOTIFY LINK SYSTEM ================
+
+/**
+ * Extrai o username do link do Spotify
+ * @param {string} link - Link do perfil do Spotify
+ * @returns {string} Username extraído
+ */
+function extrairUsernameSpotify(link) {
+    if (!link) return 'Spotify User';
+
+    // Extrair username do link
+    // https://open.spotify.com/user/username123 → username123
+    const match = link.match(/\/user\/([^?&#]+)/);
+    return match ? match[1] : 'Spotify User';
+}
+
+/**
+ * Abre modal para conectar Spotify
+ */
+window.conectarSpotify = function () {
+    const modal = document.getElementById('modalSpotify');
+    const titulo = document.getElementById('titulo-modal-spotify');
+    const input = document.getElementById('inputSpotifyLink');
+
+    if (!modal || !titulo || !input) {
+        console.error('❌ Elementos do modal Spotify não encontrados');
+        return;
+    }
+
+    // Limpar campo
+    input.value = '';
+    titulo.textContent = 'Conectar Spotify';
+
+    modal.style.display = 'flex';
+    console.log('🎵 Modal Spotify aberto');
+};
+
+/**
+ * Abre modal para editar Spotify
+ */
+window.editarSpotify = function () {
+    const usuario = auth.getUsuarioLogado();
+    const modal = document.getElementById('modalSpotify');
+    const titulo = document.getElementById('titulo-modal-spotify');
+    const input = document.getElementById('inputSpotifyLink');
+
+    if (!modal || !titulo || !input) {
+        console.error('❌ Elementos do modal Spotify não encontrados');
+        return;
+    }
+
+    // Preencher com link atual
+    if (usuario?.conexoes?.spotify?.link) {
+        input.value = usuario.conexoes.spotify.link;
+    }
+
+    titulo.textContent = 'Editar Spotify';
+    modal.style.display = 'flex';
+
+    console.log('✏️ Modal Spotify aberto para edição');
+};
+
+/**
+ * Salva o link do Spotify
+ */
+window.salvarSpotify = async function () {
+    const input = document.getElementById('inputSpotifyLink');
+    const link = input.value.trim();
+
+    if (!link) {
+        alert('Por favor, insira o link do seu perfil Spotify');
+        return;
+    }
+
+    // Validar se é um link Spotify
+    if (!link.includes('spotify.com/user/')) {
+        alert('Link inválido. Use o formato: https://open.spotify.com/user/seu-usuario');
+        return;
+    }
+
+    const usuario = auth.getUsuarioLogado();
+    if (!usuario) {
+        alert('Erro: Usuário não logado');
+        return;
+    }
+
+    // Extrair username
+    const username = extrairUsernameSpotify(link);
+
+    console.log(`💾 Salvando Spotify: ${username}`);
+
+    // Salvar no usuário
+    if (!usuario.conexoes) usuario.conexoes = {};
+    usuario.conexoes.spotify = {
+        link: link,
+        username: username,
+        conectado: true,
+        dataConexao: new Date().toISOString()
+    };
+
+    // Atualizar no auth.js
+    if (typeof auth !== 'undefined' && auth.atualizarUsuario) {
+        auth.atualizarUsuario(usuario);
+        console.log('✅ Spotify conectado:', username);
+    }
+
+    // Fechar modal
+    const modal = document.getElementById('modalSpotify');
+    if (modal) modal.style.display = 'none';
+
+    // Recarregar conexões
+    if (typeof perfilInstance !== 'undefined' && perfilInstance.carregarConexoes) {
+        perfilInstance.carregarConexoes();
+    } else {
+        // Fallback: recarregar página
+        location.reload();
+    }
+};
+
+/**
+ * Setup eventos do modal Spotify
+ */
+function setupEventosSpotifyModal() {
+    // Botão salvar
+    const btnSalvarSpotify = document.getElementById('btn-salvar-spotify');
+    if (btnSalvarSpotify) {
+        btnSalvarSpotify.addEventListener('click', salvarSpotify);
+    }
+
+    // Modal Spotify
+    const modalSpotify = document.getElementById('modalSpotify');
+    if (modalSpotify) {
+        // Botão fechar
+        const btnFechar = modalSpotify.querySelector('.btn-fechar-modal');
+        if (btnFechar) {
+            btnFechar.addEventListener('click', () => {
+                modalSpotify.style.display = 'none';
+            });
+        }
+
+        // Click fora do modal
+        modalSpotify.addEventListener('click', (e) => {
+            if (e.target === modalSpotify) {
+                modalSpotify.style.display = 'none';
+            }
+        });
+    }
+}
+
+// Executar setup quando DOM carregar
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupEventosSpotifyModal);
+} else {
+    setupEventosSpotifyModal();
+}

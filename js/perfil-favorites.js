@@ -12,14 +12,18 @@ class PerfilFavoritos {
         this.init();
     }
 
-    init() {
-        // Aguardar usuario estar carregado
-        setTimeout(() => {
-            this.usuario = auth?.getUsuarioLogado?.();
-            if (this.usuario) {
-                this.carregarFavoritos();
-            }
-        }, 500);
+    async init() {
+        // Aguardar auth estar available
+        let attempts = 0;
+        while ((!window.auth || !auth.getUsuarioLogado) && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+
+        this.usuario = auth?.getUsuarioLogado?.();
+        if (this.usuario) {
+            await this.carregarFavoritos();
+        }
     }
 
     async carregarFavoritos() {
@@ -59,13 +63,22 @@ class PerfilFavoritos {
             return;
         }
 
-        // Recarregar favoritos atualizados do sistema global
+        // SEMPRE pegar favoritos do sistema global (estado mais recente)
         if (typeof favoritesSystem !== 'undefined' && favoritesSystem.favoritos) {
-            this.favoritos = favoritesSystem.favoritos;
+            this.favoritos = [...favoritesSystem.favoritos]; // Cópia para evitar referência
+        } else {
+            // Fallback: carregar do localStorage diretamente
+            const chave = `favoritos_${this.usuario.id}`;
+            const stored = localStorage.getItem(chave);
+            this.favoritos = (stored && stored !== 'null') ? JSON.parse(stored) : [];
         }
 
-        // Carregar dados dos jogos da biblioteca Steam
-        await this.carregarJogos();
+        console.log(`⭐ Favoritos atuais: ${this.favoritos.length}`);
+
+        // Carregar dados dos jogos da biblioteca Steam (apenas se necessário)
+        if (this.jogos.length === 0) {
+            await this.carregarJogos();
+        }
 
         if (this.jogos.length === 0) {
             console.warn('⚠️ Nenhum jogo na biblioteca');
@@ -136,43 +149,16 @@ class PerfilFavoritos {
         return `
             <div class="card-jogo" onclick="window.open('https://store.steampowered.com/app/${id}', '_blank')">
                 <button 
-                    onclick="event.stopPropagation(); toggleFavoritoPerfil('${id}'); return false;" 
-                    class="btn-favoritar favoritado"
+                    onclick="event.stopPropagation(); toggleFavoritoPerfil('${id}');" 
+                    class="btn-favoritar btn-favoritar-perfil favoritado"
                     id="fav-perfil-${id}"
-                    style="
-                        position: absolute;
-                        top: 8px;
-                        right: 8px;
-                        background: rgba(126, 48, 255, 0.5);
-                        border: 2px solid #ffd700;
-                        border-radius: 50%;
-                        width: 36px;
-                        height: 36px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        cursor: pointer;
-                        font-size: 1.2rem;
-                        z-index: 10;
-                        transition: all 0.3s ease;
-                    "
                 >
                     ⭐
                 </button>
                 <img src="${imagem}" alt="${nome}" class="jogo-imagem" loading="lazy">
-                <div style="padding: 10px; background: rgba(0,0,0,0.3); flex: 1;">
-                    <p style="
-                        color: #c699ff; 
-                        margin: 0 0 5px 0; 
-                        font-weight: 600;
-                        font-size: 0.9rem;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                    ">
-                        ${nome}
-                    </p>
-                    <div class="jogo-horas" style="color: #9d5fd4; margin: 0; font-size: 0.8rem;">⏱️ ${horas}h jogadas</div>
+                <div class="jogo-info">
+                    <p class="jogo-nome">${nome}</p>
+                    <div class="jogo-horas">⏱️ ${horas}h jogadas</div>
                 </div>
             </div>
         `;
@@ -188,20 +174,45 @@ window.toggleFavoritoPerfil = async function (appid) {
         return;
     }
 
-    console.log(`🔄 Removendo favorito do perfil: ${appid}`);
+    console.log(`🔄 Toggle favorito do perfil: ${appid}`);
 
     // Usar sistema global de favoritos
     if (typeof favoritesSystem !== 'undefined') {
         const added = await favoritesSystem.toggleFavorite(usuario.email, appid);
 
-        console.log(`✅ Toggle favorito: ${added ? 'adicionado' : 'removido'} `);
+        console.log(`✅ Toggle favorito: ${added ? 'adicionado' : 'removido'}`);
 
-        // Sempre recarregar a lista de favoritos após toggle
-        const perfilFavoritosInstance = window.perfilFavoritosInstance;
-        if (perfilFavoritosInstance) {
-            // Recarregar favoritos do backend
-            await perfilFavoritosInstance.carregarFavoritos();
+        // IMEDIATAMENTE remover o card do DOM se foi desfavoritado
+        if (!added) {
+            const cardElement = document.querySelector(`#fav-perfil-${appid}`);
+            if (cardElement) {
+                const jogoCard = cardElement.closest('.card-jogo');
+                if (jogoCard) {
+                    // Remover visualmente com animação suave
+                    jogoCard.style.opacity = '0';
+                    jogoCard.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        jogoCard.remove();
+
+                        // Verificar se ainda há favoritos, se não, esconder seção
+                        const container = document.getElementById('jogos-favoritos-grid');
+                        const secao = document.getElementById('favoritos-secao');
+                        if (container && container.children.length === 0 && secao) {
+                            secao.style.display = 'none';
+                        }
+                    }, 200);
+                }
+            }
         }
+
+        // Recarregar a lista completa após um pequeno delay
+        // (garante que o sistema global está atualizado)
+        setTimeout(async () => {
+            const perfilFavoritosInstance = window.perfilFavoritosInstance;
+            if (perfilFavoritosInstance) {
+                await perfilFavoritosInstance.renderizarFavoritos();
+            }
+        }, 300);
     } else {
         console.error('❌ Sistema de favoritos não disponível');
     }

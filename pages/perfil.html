@@ -46,128 +46,130 @@
         </div>
     </header>
 
-    <!-- PERFIL HEADER -->
-    <div class="perfil-header">
-        <div class="perfil-cover" id="perfil-cover"></div>
-    </div>
-
-    <!-- CARD PERFIL -->
-    <div class="card-perfil">
-        <div class="info-perfil">
-            <img class="avatar" id="avatar" src="https://via.placeholder.com/150" alt="Avatar">
-            <div class="dados-perfil">
-                <h1 id="nomeUsuario">Usuário</h1>
-                <p id="emailUsuario">Email: N/A</p>
-                <p id="bioUsuario">Bio do usuário</p>
+    <!-- MAIN PROFILE CONTENT -->
+    <main class="perfil-main">
+        <!-- PERFIL HEADER -->
+        <section class="perfil-header-section">
+            <div class="perfil-header">
+                <div class="perfil-cover" id="perfil-cover"></div>
             </div>
-            <div class="botoes-perfil">
-                <button class="btn-editar-banner">🖼️ Banner</button>
-                <button class="btn-editar">✏️ Editar Perfil</button>
-                <button class="btn-logout">🚪 Logout</button>
-            </div>
-        </div>
-    </div>
+        </section>
 
-
-    <!-- ABAS -->
-    <div class="abas-container">
-        <div class="abas">
-            <button class="aba-btn aba-ativa" data-aba="atividades">📋 Atividades</button>
-            <button class="aba-btn" data-aba="comunidades">👥 Comunidades</button>
-            <button class="aba-btn" data-aba="amigos">👫 Amigos</button>
-            <button class="aba-btn" data-aba="conexoes">🔗 Conexões</button>
-            <button class="aba-btn" data-aba="jogos">🎮 Jogos</button>
-        </div>
-
-        <!-- CONTEÚDO DAS ABAS -->
-
-        <!-- ABA: ATIVIDADES -->
-        <div id="atividades" class="aba-conteudo aba-ativa-conteudo">
-            <h3>📋 Atividades</h3>
-            <p>Conteúdo de Atividades - Em desenvolvimento</p>
-        </div>
-
-        <!-- ABA: COMUNIDADES -->
-        <div id="comunidades" class="aba-conteudo">
-            <h3>👥 Comunidades</h3>
-            <div id="comunidades-conteudo" class="comunidades-grid">
-                <!-- Populado dinamicamente por JS -->
-            </div>
-            <div id="posts-conteudo" class="posts-lista">
-                <!-- Posts da conta populados por JS -->
-            </div>
-        </div>
-
-        <!-- ABA: AMIGOS -->
-        <div id="amigos" class="aba-conteudo">
-            <h3>👫 Sistema de Amizade</h3>
-
-            <!-- BUSCAR USUÁRIOS -->
-            <div class="secao-amigos busca-usuarios">
-                <h4>🔍 Buscar Usuários</h4>
-                <div class="busca-input-container">
-                    <input type="text" id="inputBuscarUsuario" placeholder="Digite o nome do usuário..."
-                        class="input-busca-usuario">
-                    <button onclick="buscarUsuariosNome()" class="btn-buscar-usuario">Buscar</button>
-                </div>
-                <div id="resultados-busca" class="resultados-busca"></div>
-            </div>
-
-            <!-- SOLICITAÇÕES RECEBIDAS -->
-            <div class="secao-amigos solicitacoes-recebidas">
-                <h4>📬 Solicitações Recebidas <span id="badge-recebidas" class="badge-count">0</span></h4>
-                <div id="lista-solicitacoes-recebidas" class="lista-cards">
-                    <!-- Popolado por JS -->
+        <!-- CARD PERFIL -->
+        <section class="perfil-info-section">
+            <div class="card-perfil">
+                <div class="info-perfil">
+                    <img class="avatar" id="avatar" src="https://via.placeholder.com/150" alt="Avatar">
+                    <div class="dados-perfil">
+                        <h1 id="nomeUsuario">Usuário</h1>
+                        <p id="emailUsuario">Email: N/A</p>
+                        <p id="bioUsuario">Bio do usuário</p>
+                    </div>
+                    <div class="botoes-perfil">
+                        <button class="btn-editar-banner">🖼️ Banner</button>
+                        <button class="btn-editar">✏️ Editar Perfil</button>
+                        <button class="btn-logout">🚪 Logout</button>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <!-- SOLICITAÇÕES ENVIADAS -->
-            <div class="secao-amigos solicitacoes-enviadas">
-                <h4>📤 Solicitações Enviadas <span id="badge-enviadas" class="badge-count">0</span></h4>
-                <div id="lista-solicitacoes-enviadas" class="lista-cards">
-                    <!-- Popolado por JS -->
+
+        <!-- ABAS -->
+        <section class="perfil-tabs-section">
+            <div class="abas-container">
+                <div class="abas">
+                    <button class="aba-btn aba-ativa" data-aba="comunidades">👥 Comunidades</button>
+                    <button class="aba-btn" data-aba="amigos">👫 Amigos</button>
+                    <button class="aba-btn" data-aba="conexoes">🔗 Conexões</button>
+                    <button class="aba-btn" data-aba="jogos">🎮 Jogos</button>
+                </div>
+
+                <!-- CONTEÚDO DAS ABAS -->
+
+                <!-- ABA: COMUNIDADES -->
+                <div id="comunidades" class="aba-conteudo aba-ativa-conteudo">
+                    <h3>👥 Comunidades</h3>
+                    <div id="comunidades-conteudo" class="comunidades-grid">
+                        <!-- Populado dinamicamente por JS -->
+                    </div>
+                    <div id="posts-conteudo" class="posts-lista">
+                        <!-- Posts da conta populados por JS -->
+                    </div>
+                </div>
+
+                <!-- ABA: AMIGOS -->
+                <div id="amigos" class="aba-conteudo">
+                    <h3>👫 Sistema de Amizade</h3>
+
+                    <!-- BUSCAR USUÁRIOS -->
+                    <div class="secao-amigos busca-usuarios">
+                        <h4>🔍 Buscar Usuários</h4>
+                        <div class="busca-input-container">
+                            <input type="text" id="inputBuscarUsuario" placeholder="Digite o nome do usuário..."
+                                class="input-busca-usuario">
+                            <button onclick="buscarUsuariosNome()" class="btn-buscar-usuario">Buscar</button>
+                        </div>
+                        <div id="resultados-busca" class="resultados-busca"></div>
+                    </div>
+
+                    <!-- SOLICITAÇÕES RECEBIDAS -->
+                    <div class="secao-amigos solicitacoes-recebidas">
+                        <h4>📬 Solicitações Recebidas <span id="badge-recebidas" class="badge-count">0</span></h4>
+                        <div id="lista-solicitacoes-recebidas" class="lista-cards">
+                            <!-- Popolado por JS -->
+                        </div>
+                    </div>
+
+                    <!-- SOLICITAÇÕES ENVIADAS -->
+                    <div class="secao-amigos solicitacoes-enviadas">
+                        <h4>📤 Solicitações Enviadas <span id="badge-enviadas" class="badge-count">0</span></h4>
+                        <div id="lista-solicitacoes-enviadas" class="lista-cards">
+                            <!-- Popolado por JS -->
+                        </div>
+                    </div>
+
+                    <!-- LISTA DE AMIGOS -->
+                    <div class="secao-amigos lista-amigos">
+                        <h4>💚 Meus Amigos <span id="badge-amigos" class="badge-count">0</span></h4>
+                        <div id="lista-amigos-confirmados" class="lista-cards">
+                            <!-- Popolado por JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA: CONEXÕES -->
+                <div id="conexoes" class="aba-conteudo">
+                    <h3>🔗 Conexões</h3>
+                    <div id="conexoes-conteudo" class="conexoes-grid">
+                        <!-- Conexões (Steam, Discord, etc) populadas por JS -->
+                    </div>
+                </div>
+
+                <!-- ABA: JOGOS -->
+                <div id="jogos" class="aba-conteudo">
+                    <h3>🎮 Jogos</h3>
+
+                    <!-- Jogos Favoritos -->
+                    <div class="favoritos-secao" id="favoritos-secao" style="display: none;">
+                        <h4>⭐ Jogos Favoritos</h4>
+                        <div id="jogos-favoritos-grid" class="jogos-grid">
+                            <!-- Preenchido por JS -->
+                        </div>
+                        <div class="divisor"></div>
+                    </div>
+
+                    <!-- Biblioteca Completa -->
+                    <div class="biblioteca-secao">
+                        <h4 id="titulo-biblioteca">📚 Biblioteca Steam</h4>
+                        <div id="jogos-conteudo" class="jogos-grid">
+                            <!-- Biblioteca Steam populada por JS -->
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- LISTA DE AMIGOS -->
-            <div class="secao-amigos lista-amigos">
-                <h4>💚 Meus Amigos <span id="badge-amigos" class="badge-count">0</span></h4>
-                <div id="lista-amigos-confirmados" class="lista-cards">
-                    <!-- Popolado por JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- ABA: CONEXÕES -->
-        <div id="conexoes" class="aba-conteudo">
-            <h3>🔗 Conexões</h3>
-            <div id="conexoes-conteudo" class="conexoes-grid">
-                <!-- Conexões (Steam, Discord, etc) populadas por JS -->
-            </div>
-        </div>
-
-        <!-- ABA: JOGOS -->
-        <div id="jogos" class="aba-conteudo">
-            <h3>🎮 Jogos</h3>
-
-            <!-- Jogos Favoritos -->
-            <div class="favoritos-secao" id="favoritos-secao" style="display: none;">
-                <h4>⭐ Jogos Favoritos</h4>
-                <div id="jogos-favoritos-grid" class="jogos-grid">
-                    <!-- Preenchido por JS -->
-                </div>
-                <div class="divisor"></div>
-            </div>
-
-            <!-- Biblioteca Completa -->
-            <div class="biblioteca-secao">
-                <h4 id="titulo-biblioteca">📚 Biblioteca Steam</h4>
-                <div id="jogos-conteudo" class="jogos-grid">
-                    <!-- Biblioteca Steam populada por JS -->
-                </div>
-            </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <!-- ============ MODAIS ============ -->
 
@@ -236,6 +238,24 @@
         </div>
     </div>
 
+    <!-- MODAL CONECTAR SPOTIFY -->
+    <div class="modal" id="modalSpotify">
+        <div class="modal-conteudo">
+            <button class="btn-fechar-modal">✕</button>
+            <h2 id="titulo-modal-spotify">Conectar Spotify</h2>
+
+            <div class="form-grupo">
+                <label for="inputSpotifyLink">Link do Perfil Spotify:</label>
+                <input type="url" id="inputSpotifyLink" placeholder="https://open.spotify.com/user/seu-usuario">
+                <small style="color: #9d5fd4; display: block; margin-top: 5px;">
+                    Cole o link do seu perfil público do Spotify
+                </small>
+            </div>
+
+            <button class="btn-salvar-editar" id="btn-salvar-spotify">Salvar</button>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer>
         <a href="/pages/sobre.html">Sobre</a> | <a
@@ -248,7 +268,6 @@
     <script src="/js/search-global.js"></script>
     <script src="/js/friends-system.js"></script>
     <script src="/js/steam-sync.js"></script>
-    <script src="/js/discord-sync.js"></script>
     <script src="/js/discord-sync.js"></script>
     <script src="/js/perfil-helpers.js"></script>
     <script src="/js/perfil.js"></script>

@@ -627,7 +627,201 @@ def get_feeds_config():
         "ativo": True
     }]), 200
     
+
+# ================ FAVORITOS APIs ================
+
+@app.route('/api/favoritos/<email>', methods=['GET'])
+def api_get_favoritos(email):
+    """Retorna favoritos de um usuário"""
+    try:
+        perfil_dados = carregar_perfil_dados()
+        usuario_dados = perfil_dados.get(email, {})
+        favoritos = usuario_dados.get('favoritos', [])
+        
+        print(f"📊 Carregando favoritos para {email}: {len(favoritos)} jogos")
+        return jsonify({"favoritos": favoritos}), 200
+    except Exception as e:
+        print(f"❌ Erro ao carregar favoritos: {str(e)}")
+        return jsonify({"error": str(e), "favoritos": []}), 500
+
+
+@app.route('/api/favoritos/<email>/toggle', methods=['POST'])
+def api_toggle_favorito(email):
+    """Adiciona ou remove um jogo dos favoritos"""
+    try:
+        data = request.get_json()
+        appid = str(data.get('appid', ''))
+        
+        if not appid:
+            return jsonify({"error": "appid é obrigatório"}), 400
+        
+        perfil_dados = carregar_perfil_dados()
+        
+        # Criar entrada do usuário se não existir
+        if email not in perfil_dados:
+            perfil_dados[email] = {"favoritos": []}
+        
+        usuario_dados = perfil_dados[email]
+        
+        # Garantir que favoritos existe
+        if 'favoritos' not in usuario_dados:
+            usuario_dados['favoritos'] = []
+        
+        favoritos = usuario_dados['favoritos']
+        
+        # Toggle favorito
+        if appid in favoritos:
+            favoritos.remove(appid)
+            added = False
+            print(f"❌ Removido favorito {appid} de {email}")
+        else:
+            favoritos.append(appid)
+            added = True
+            print(f"⭐ Adicionado favorito {appid} para {email}")
+        
+        # Atualizar dados
+        usuario_dados['favoritos'] = favoritos
+        perfil_dados[email] = usuario_dados
+        
+        # Salvar no arquivo
+        salvar_perfil_dados(perfil_dados)
+        
+        print(f"💾 Favoritos salvos: {len(favoritos)} jogos")
+        
+        return jsonify({
+            "success": True,
+            "added": added,
+            "favoritos": favoritos
+        }), 200
+        
+    except Exception as e:
+        print(f"❌ Erro ao toggle favorito: {str(e)}")
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/favoritos/<email>', methods=['POST'])
+def api_salvar_favoritos(email):
+    """Salva lista completa de favoritos"""
+    try:
+        data = request.get_json()
+        favoritos = data.get('favoritos', [])
+        
+        # Garantir que são strings
+        favoritos = [str(f) for f in favoritos]
+        
+        perfil_dados = carregar_perfil_dados()
+        
+        if email not in perfil_dados:
+            perfil_dados[email] = {}
+        
+        perfil_dados[email]['favoritos'] = favoritos
+        salvar_perfil_dados(perfil_dados)
+        
+        print(f"💾 Favoritos salvos para {email}: {len(favoritos)} jogos")
+        return jsonify({"success": True, "favoritos": favoritos}), 200
+        
+    except Exception as e:
+        print(f"❌ Erro ao salvar favoritos: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
+# ================ COMUNIDADES APIs ================
+
+@app.route('/api/comunidades', methods=['GET'])
+def api_get_comunidades():
+    """Retorna todas as comunidades"""
+    try:
+        comunidades = carregar_comunidades()
+        return jsonify(comunidades), 200
+    except Exception as e:
+        print(f"❌ Erro ao carregar comunidades: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/comunidades/<comunidade_id>', methods=['GET'])
+def api_get_comunidade(comunidade_id):
+    """Retorna uma comunidade específica com informações completas"""
+    try:
+        comunidades = carregar_comunidades()
+        comunidade = next((c for c in comunidades if c.get('id') == comunidade_id), None)
+        
+        if not comunidade:
+            return jsonify({"error": "Comunidade não encontrada"}), 404
+        
+        # Buscar nome do criador
+        usuarios = carregar_usuarios()
+        criador = next((u for u in usuarios.values() if u.get('email') == comunidade.get('criador')), None)
+        criador_nome = criador.get('nome') if criador else comunidade.get('criador')
+        
+        # Adicionar informações adicionais
+        response = {
+            **comunidade,
+            'criador_nome': criador_nome
+        }
+        
+        print(f"✅ Comunidade carregada: {comunidade.get('nome')} - Criador: {criador_nome}")
+        return jsonify(response), 200
+    except Exception as e:
+        print(f"❌ Erro ao carregar comunidade {comunidade_id}: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/comunidades/<comunidade_id>/membros', methods=['GET'])
+def api_get_membros(comunidade_id):
+    """Retorna lista de membros com informações completas"""
+    try:
+        comunidades = carregar_comunidades()
+        comunidade = next((c for c in comunidades if c.get('id') == comunidade_id), None)
+        
+        if not comunidade:
+            return jsonify({"error": "Comunidade não encontrada"}), 404
+        
+        usuarios = carregar_usuarios()
+        membros_info = []
+        
+        for email in comunidade.get('membros', []):
+            usuario = next((u for u in usuarios.values() if u.get('email') == email), None)
+            if usuario:
+                membros_info.append({
+                    'email': email,
+                    'nome': usuario.get('nome'),
+                    'avatar': usuario.get('avatar', 'https://via.placeholder.com/50')
+                })
+        
+        print(f"✅ Membros carregados: {len(membros_info)} membros")
+        return jsonify(membros_info), 200
+    except Exception as e:
+        print(f"❌ Erro ao carregar membros: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/comunidades/buscar', methods=['GET'])
+def api_buscar_comunidades():
+    """Busca comunidades por nome, descrição ou tipo"""
+    try:
+        query = request.args.get('q', '').lower().strip()
+        
+        if not query:
+            return jsonify([]), 200
+        
+        comunidades = carregar_comunidades()
+        resultados = [
+            c for c in comunidades 
+            if query in c.get('nome', '').lower() or 
+               query in c.get('biografia', '').lower() or
+               query in c.get('descricao', '').lower() or
+               query in c.get('tipo', '').lower()
+        ]
+        
+        print(f"🔍 Busca '{query}': {len(resultados)} resultados")
+        return jsonify(resultados), 200
+    except Exception as e:
+        print(f"❌ Erro na busca: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
     
+
 # ================ STEAM GAMES API ================
 class SteamGamesAPI:
     STEAM_STORE_URL = "https://store.steampowered.com/api/appdetails"

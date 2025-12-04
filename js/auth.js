@@ -97,8 +97,7 @@ class AuthLocal {
         solicitacoesEnviadas: [],
         solicitacoesRecebidas: [],
         bio: '',
-        jogosOtimistas: [],
-        atividades: []
+        jogosOtimistas: []
       };
 
 
@@ -397,37 +396,7 @@ class AuthLocal {
   }
 
 
-  registrarAtividade(idUsuario, tipo, dados) {
-    try {
-      const usuarios = this.carregarUsuarios();
-      if (!usuarios[idUsuario]) return false;
 
-
-      const atividade = {
-        id: 'ativ_' + Date.now(),
-        tipo: tipo,
-        dados: dados,
-        timestamp: new Date().toISOString()
-      };
-
-
-      usuarios[idUsuario].atividades.push(atividade);
-
-      if (usuarios[idUsuario].atividades.length > 50) {
-        usuarios[idUsuario].atividades = usuarios[idUsuario].atividades.slice(-50);
-      }
-
-
-      this.salvarUsuarios(usuarios);
-      console.log('📝 Atividade registrada:', tipo);
-      return true;
-
-
-    } catch (erro) {
-      console.error('Erro ao registrar atividade:', erro);
-      return false;
-    }
-  }
 }
 
 

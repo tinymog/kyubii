@@ -1,5 +1,10 @@
 {
   "hkmplusnow@gmail.com": {
-    "carrinho_count": 3
+    "carrinho_count": 3,
+    "favoritos": [
+      "10",
+      "4000",
+      "80"
+    ]
   }
 }

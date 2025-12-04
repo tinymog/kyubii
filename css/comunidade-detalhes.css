@@ -475,3 +475,174 @@ footer {
         font-size: 2rem;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODO DE EDIÇÃO
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Banner Upload Section */
+.banner-upload-section {
+    background: rgba(124, 61, 245, 0.15);
+    border: 2px dashed rgba(124, 61, 245, 0.4);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.banner-upload-section:hover {
+    border-color: #a64eff;
+    background: rgba(124, 61, 245, 0.2);
+}
+
+.banner-upload-label {
+    background: linear-gradient(135deg, #7a3df5, #a64eff);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(124, 61, 245, 0.4);
+}
+
+.banner-upload-label:hover {
+    box-shadow: 0 0 25px rgba(124, 61, 245, 0.6);
+    transform: scale(1.05);
+}
+
+.banner-filename {
+    color: #c699ff;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Editable Input (Nome) */
+.editable-input {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(124, 61, 245, 0.3);
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.editable-input:focus {
+    outline: none;
+    border-color: #a64eff;
+    box-shadow: 0 0 20px rgba(166, 78, 255, 0.4);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Editable Textarea (Descrição) */
+.editable-textarea {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(124, 61, 245, 0.3);
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    width: 100%;
+    resize: vertical;
+    min-height: 80px;
+    transition: all 0.3s ease;
+}
+
+.editable-textarea:focus {
+    outline: none;
+    border-color: #a64eff;
+    box-shadow: 0 0 20px rgba(166, 78, 255, 0.4);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Editable Select (Tipo) */
+.editable-select {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(124, 61, 245, 0.3);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.editable-select:focus {
+    outline: none;
+    border-color: #a64eff;
+    box-shadow: 0 0 15px rgba(166, 78, 255, 0.4);
+}
+
+.editable-select option {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 8px;
+}
+
+/* Botões de Edição */
+.btn-salvar {
+    background: linear-gradient(135deg, #00c853, #00e676) !important;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 200, 83, 0.4);
+}
+
+.btn-salvar:hover {
+    box-shadow: 0 0 25px rgba(0, 230, 118, 0.6);
+    transform: scale(1.05);
+}
+
+.btn-cancelar {
+    background: linear-gradient(135deg, #f44336, #e91e63) !important;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(244, 67, 54, 0.4);
+}
+
+.btn-cancelar:hover {
+    box-shadow: 0 0 25px rgba(233, 30, 99, 0.6);
+    transform: scale(1.05);
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.editable-input,
+.editable-textarea,
+.editable-select,
+.banner-upload-section {
+    animation: fadeIn 0.3s ease;
+}
