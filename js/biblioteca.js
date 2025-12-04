@@ -30,6 +30,9 @@ class BibliotecaSteam {
       return;
     }
 
+    // Carregar favoritos do backend antes de tudo
+    this.carregarFavoritosBackend();
+
     if (this.steamId && this.steamId !== 'undefined' && this.steamId !== '' && this.steamId !== 'null') {
       console.log('✓ Steam conectada. Carregando biblioteca...');
       this.carregarBibliotecaSteam();
@@ -39,6 +42,22 @@ class BibliotecaSteam {
     }
 
     this.setupEventos();
+  }
+
+  async carregarFavoritosBackend() {
+    if (!this.usuarioLogado || !this.usuarioLogado.email) {
+      console.warn('⚠️ Email não disponível para carregar favoritos');
+      return;
+    }
+
+    try {
+      if (typeof favoritesSystem !== 'undefined') {
+        await favoritesSystem.loadFavorites(this.usuarioLogado.email);
+        console.log('✅ Favoritos carregados do backend');
+      }
+    } catch (erro) {
+      console.warn('⚠️ Erro ao carregar favoritos:', erro);
+    }
   }
 
   setupEventos() {
@@ -161,20 +180,31 @@ class BibliotecaSteam {
         .sort((a, b) => (b.horasRecentes || 0) - (a.horasRecentes || 0))
         .slice(0, 10);
     } else if (tipo === 'favoritos') {
-      // Carregar favoritos do localStorage
-      const chave = `favoritos_${this.usuarioLogado.id}`;
-      const favoritosStr = localStorage.getItem(chave);
+      // Usar sistema global de favoritos se disponível
       let favoritos = [];
-      if (favoritosStr && favoritosStr !== 'null') {
-        try {
-          favoritos = JSON.parse(favoritosStr);
-        } catch (e) {
-          console.error('❌ Erro ao carregar favoritos:', e);
+
+      if (typeof favoritesSystem !== 'undefined' && favoritesSystem.favoritos) {
+        favoritos = favoritesSystem.favoritos;
+      } else {
+        // Fallback para localStorage
+        const chave = `favoritos_${this.usuarioLogado.id}`;
+        const favoritosStr = localStorage.getItem(chave);
+        if (favoritosStr && favoritosStr !== 'null') {
+          try {
+            favoritos = JSON.parse(favoritosStr);
+          } catch (e) {
+            console.error('❌ Erro ao carregar favoritos:', e);
+          }
         }
       }
-      // Filtrar apenas jogos favoritados
-      this.jogosFiltrados = this.jogos.filter(j => favoritos.includes(j.appid || j.id));
-      console.log('⭐ Favoritos:', favoritos.length, 'jogos');
+
+      // Filtrar apenas jogos favoritados (converter ambos para string)
+      this.jogosFiltrados = this.jogos.filter(j => {
+        const jogoId = String(j.appid || j.id);
+        return favoritos.some(fav => String(fav) === jogoId);
+      });
+
+      console.log('⭐ Favoritos:', favoritos.length, 'jogos | Filtrados:', this.jogosFiltrados.length);
     }
 
     console.log(`🔍 Filtrando: ${this.jogosFiltrados.length} jogos`);
@@ -212,16 +242,25 @@ class BibliotecaSteam {
     const imagem = jogo.imagem;
     const horas = jogo.horas || 0;
 
-    // Verificar se está nos favoritos
-    const chave = `favoritos_${this.usuarioLogado.id}`;
-    const favoritosStr = localStorage.getItem(chave);
-    let favoritos = [];
-    if (favoritosStr && favoritosStr !== 'null') {
-      try {
-        favoritos = JSON.parse(favoritosStr);
-      } catch (e) { }
+    // Verificar se está nos favoritos usando sistema global
+    let isFavorito = false;
+
+    if (typeof favoritesSystem !== 'undefined' && favoritesSystem.favoritos) {
+      isFavorito = favoritesSystem.favoritos.includes(String(id));
+    } else {
+      // Fallback para localStorage
+      const chave = `favoritos_${this.usuarioLogado.id}`;
+      const favoritosStr = localStorage.getItem(chave);
+      let favoritos = [];
+      if (favoritosStr && favoritosStr !== 'null') {
+        try {
+          favoritos = JSON.parse(favoritosStr);
+          isFavorito = favoritos.includes(String(id)) || favoritos.includes(id);
+        } catch (e) {
+          console.warn('⚠️ Erro ao ler favoritos:', e);
+        }
+      }
     }
-    const isFavorito = favoritos.includes(id);
 
     return `
   <div class="jogo-card" data-jogo-id="${id}" style="position: relative; cursor: pointer;" onclick="window.open('https://store.steampowered.com/app/${id}', '_blank')">
@@ -297,57 +336,83 @@ class BibliotecaSteam {
 }
 
 // Função global para toggle de favoritos na biblioteca
-window.toggleFavoritoBiblioteca = function (appid) {
-
+window.toggleFavoritoBiblioteca = async function (appid) {
   const usuario = auth.getUsuarioLogado();
-  if (!usuario) return;
+  if (!usuario || !usuario.email) {
+    console.warn('⚠️ Usuário não logado');
+    return;
+  }
 
-  const chave = `favoritos_${usuario.id}`;
-  const favoritosStr = localStorage.getItem(chave);
-  let favoritos = [];
+  // Usar sistema global de favoritos
+  if (typeof favoritesSystem !== 'undefined') {
+    const added = await favoritesSystem.toggleFavorite(usuario.email, appid);
 
-  if (favoritosStr && favoritosStr !== 'null') {
-    try {
-      favoritos = JSON.parse(favoritosStr);
-    } catch (e) {
-      console.error('❌ Erro ao carregar favoritos:', e);
+    // Atualizar visual do botão
+    const btn = document.getElementById(`fav-lib-${appid}`);
+    if (btn) {
+      btn.innerHTML = added ? '⭐' : '☆';
+      btn.style.background = added ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
+      btn.style.borderColor = added ? '#ffd700' : '#7e30ff';
+      btn.classList.toggle('favoritado', added);
     }
-  }
 
-  const index = favoritos.indexOf(appid);
-
-  if (index >= 0) {
-    favoritos.splice(index, 1);
-    console.log('❌ Removido dos favoritos:', appid);
+    // Se estiver no filtro de favoritos, re-renderizar sem reload
+    const radioFavoritos = document.querySelector('input[name="filtro"][value="favoritos"]');
+    if (radioFavoritos && radioFavoritos.checked) {
+      // Re-filtrar a biblioteca
+      const bibliotecaInstance = window.bibliotecaInstance;
+      if (bibliotecaInstance) {
+        bibliotecaInstance.filtrar('favoritos');
+      }
+    }
   } else {
-    favoritos.push(appid);
-    console.log('⭐ Adicionado aos favoritos:', appid);
-  }
+    // Fallback para sistema antigo
+    const chave = `favoritos_${usuario.id}`;
+    let favoritos = JSON.parse(localStorage.getItem(chave) || '[]');
 
-  localStorage.setItem(chave, JSON.stringify(favoritos));
+    const index = favoritos.indexOf(appid);
+    if (index >= 0) {
+      favoritos.splice(index, 1);
+    } else {
+      favoritos.push(appid);
+    }
 
-  // Atualizar visual do botão
-  const btn = document.getElementById(`fav-lib-${appid}`);
-  if (btn) {
-    const isFavorito = favoritos.includes(appid);
-    btn.innerHTML = isFavorito ? '⭐' : '☆';
-    btn.style.background = isFavorito ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
-    btn.style.borderColor = isFavorito ? '#ffd700' : '#7e30ff';
-  }
+    localStorage.setItem(chave, JSON.stringify(favoritos));
 
-  // Se estiver no filtro de favoritos, recarregar a lista
-  const radioFavoritos = document.querySelector('input[name="filtro"][value="favoritos"]');
-  if (radioFavoritos && radioFavoritos.checked) {
-    // Forçar re-render da biblioteca
-    location.reload();
+    const btn = document.getElementById(`fav-lib-${appid}`);
+    if (btn) {
+      const isFavorito = favoritos.includes(appid);
+      btn.innerHTML = isFavorito ? '⭐' : '☆';
+      btn.style.background = isFavorito ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
+      btn.style.borderColor = isFavorito ? '#ffd700' : '#7e30ff';
+    }
   }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🎮 DOM Carregado');
   if (typeof auth !== 'undefined') {
-    new BibliotecaSteam();
+    const biblioteca = new BibliotecaSteam();
+    window.bibliotecaInstance = biblioteca; // Guardar instância global
   } else {
     console.error('❌ auth.js não carregado');
+  }
+});
+// Escutar atualizações globais de favoritos
+document.addEventListener('favoritesUpdated', (e) => {
+  const { appid, added } = e.detail;
+  console.log(`🔄 Atualizando estrela na biblioteca: ${appid} -> ${added}`);
+
+  const btn = document.getElementById(`fav-lib-${appid}`);
+  if (btn) {
+    btn.innerHTML = added ? '⭐' : '☆';
+    btn.style.background = added ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
+    btn.style.borderColor = added ? '#ffd700' : '#7e30ff';
+    btn.classList.toggle('favoritado', added);
+  }
+
+  // Se estiver no filtro de favoritos e removeu, re-renderizar
+  if (!added && window.bibliotecaInstance && window.bibliotecaInstance.filtroAtual === 'favoritos') {
+    window.bibliotecaInstance.filtrar('favoritos');
   }
 });

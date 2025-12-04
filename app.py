@@ -12,7 +12,44 @@ import re
 import html
 import hashlib
 import xml.etree.ElementTree as ET
+import mysql.connector
+from mysql.connector import Error
 
+# ----------------------------------
+# CONEXÃO MYSQL
+# ----------------------------------
+def criar_conexao():
+    try:
+        conn = mysql.connector.connect(
+            host="KyubiiGameLibrary.mysql.pythonanywhere-services.com",
+            user="KyubiiGameLibrar",
+            password="Kyu.sup",
+            database="KyubiiGameLibrar$KyubiiBD"
+        )
+        return conn
+    except Error as e:
+        print("Erro ao conectar ao MySQL:", e)
+        return None
+
+# ----------------------------------
+# FUNÇÕES AUXILIARES SQL
+# ----------------------------------
+def select(query, params=None):
+    conn = criar_conexao()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(query, params)
+    resultado = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return resultado
+
+def execute(query, params=None):
+    conn = criar_conexao()
+    cursor = conn.cursor()
+    cursor.execute(query, params)
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 # ================ STEAM CONFIG ================
 STEAM_OPENID_URL = "https://steamcommunity.com/openid/login"
@@ -210,19 +247,21 @@ def discord_callback():
 # ================ STEAM AUTHENTICATION ================
 @app.route("/steam-login")
 def steam_login():
-    return_to = "http://localhost:5500/steam-callback"
+    return_to = "https://kyubiigamelibrary.pythonanywhere.com/steam-callback"
     params = {
         "openid.ns": "http://specs.openid.net/auth/2.0",
         "openid.identity": "http://specs.openid.net/auth/2.0/identifier_select",
         "openid.claimed_id": "http://specs.openid.net/auth/2.0/identifier_select",
         "openid.mode": "checkid_setup",
         "openid.return_to": return_to,
-        "openid.realm": "http://localhost:5500/",
+        "openid.realm": "https://kyubiigamelibrary.pythonanywhere.com/",
         "openid.ns.sreg": "http://openid.net/extensions/sreg/1.1",
     }
+
     login_url = STEAM_OPENID_URL + "?" + urlencode(params)
     print(f"Redirecionando para Steam: {login_url}")
     return redirect(login_url)
+
 
 
 def get_steam_user_info(steam_id_64):
@@ -1535,6 +1574,197 @@ def get_perfil_user(email):
         import traceback
         traceback.print_exc()
         return jsonify({'erro': str(e)}), 500
+
+
+# ================ CARRINHO - CONTADOR GLOBAL ================
+@app.route('/api/cart/count', methods=['GET'])
+def get_cart_count():
+    """Retorna o número de itens no carrinho do usuário"""
+    try:
+        email = request.args.get('email', '').strip().lower()
+        
+        if not email:
+            return jsonify({'count': 0}), 200
+        
+        dados_perfil = carregar_perfil_dados()
+        count = dados_perfil.get(email, {}).get('carrinho_count', 0)
+        
+        print(f"📊 Contador do carrinho para {email}: {count}")
+        return jsonify({'count': count}), 200
+        
+    except Exception as e:
+        print(f"❌ Erro ao buscar contador: {str(e)}")
+        return jsonify({'count': 0}), 200
+
+
+@app.route('/api/cart/update', methods=['POST'])
+def update_cart_count():
+    """Atualiza o número de itens no carrinho do usuário"""
+    try:
+        data = request.json
+        email = data.get('email', '').strip().lower()
+        count = data.get('count', 0)
+        
+        if not email:
+            return jsonify({'error': 'Email é obrigatório'}), 400
+        
+        dados_perfil = carregar_perfil_dados()
+        
+        if email not in dados_perfil:
+            dados_perfil[email] = {}
+        
+        dados_perfil[email]['carrinho_count'] = max(0, int(count))
+        salvar_perfil_dados(dados_perfil)
+        
+        print(f"✅ Contador atualizado para {email}: {count}")
+        return jsonify({'success': True, 'count': dados_perfil[email]['carrinho_count']}), 200
+        
+    except Exception as e:
+        print(f"❌ Erro ao atualizar contador: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+
+# ================ FAVORITOS - SISTEMA DE JOGOS FAVORITOS ================
+@app.route('/api/favoritos/<email>', methods=['GET'])
+def get_favoritos(email):
+    """Retorna a lista de jogos favoritos do usuário"""
+    try:
+        email = email.strip().lower()
+        
+        if not email:
+            return jsonify({'favoritos': []}), 200
+        
+        dados_perfil = carregar_perfil_dados()
+        favoritos = dados_perfil.get(email, {}).get('favoritos', [])
+        
+        print(f"📊 Favoritos para {email}: {len(favoritos)} jogos")
+        return jsonify({'favoritos': favoritos}), 200
+        
+    except Exception as e:
+        print(f"❌ Erro ao buscar favoritos: {str(e)}")
+        return jsonify({'favoritos': []}), 200
+
+
+@app.route('/api/favoritos/<email>/toggle', methods=['POST'])
+def toggle_favorito(email):
+    """Adiciona ou remove um jogo dos favoritos"""
+    try:
+        email = email.strip().lower()
+        data = request.json
+        appid = data.get('appid')
+        
+        if not email or not appid:
+            return jsonify({'error': 'Email e appid são obrigatórios'}), 400
+        
+        # Converter appid para string para consistência
+        appid = str(appid)
+        
+        dados_perfil = carregar_perfil_dados()
+        
+        if email not in dados_perfil:
+            dados_perfil[email] = {}
+        
+        if 'favoritos' not in dados_perfil[email]:
+            dados_perfil[email]['favoritos'] = []
+        
+        favoritos = dados_perfil[email]['favoritos']
+        
+        # Toggle: adicionar ou remover
+        if appid in favoritos:
+            favoritos.remove(appid)
+            added = False
+            print(f"❌ Removido dos favoritos: {appid} para {email}")
+        else:
+            favoritos.append(appid)
+            added = True
+            print(f"⭐ Adicionado aos favoritos: {appid} para {email}")
+        
+        dados_perfil[email]['favoritos'] = favoritos
+        salvar_perfil_dados(dados_perfil)
+        
+        return jsonify({
+            'success': True,
+            'favoritos': favoritos,
+            'added': added,
+            'count': len(favoritos)
+        }), 200
+        
+    except Exception as e:
+        print(f"❌ Erro ao toggle favorito: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/favoritos/<email>', methods=['POST'])
+def update_favoritos(email):
+    """Atualiza a lista completa de favoritos do usuário"""
+    try:
+        email = email.strip().lower()
+        data = request.json
+        favoritos = data.get('favoritos', [])
+        
+        if not email:
+            return jsonify({'error': 'Email é obrigatório'}), 400
+        
+        # Converter todos para string
+        favoritos = [str(f) for f in favoritos]
+        
+        dados_perfil = carregar_perfil_dados()
+        
+        if email not in dados_perfil:
+            dados_perfil[email] = {}
+        
+        dados_perfil[email]['favoritos'] = favoritos
+        salvar_perfil_dados(dados_perfil)
+        
+        print(f"✅ Favoritos atualizados para {email}: {len(favoritos)} jogos")
+        return jsonify({
+            'success': True,
+            'favoritos': favoritos,
+            'count': len(favoritos)
+        }), 200
+        
+    except Exception as e:
+        print(f"❌ Erro ao atualizar favoritos: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+# ================ COMUNIDADES - DETALHES ================
+@app.route('/api/comunidades/<id>', methods=['GET'])
+def get_comunidade_detalhes(id):
+    """Retorna detalhes da comunidade incluindo nome do criador"""
+    try:
+        comunidades = carregar_comunidades()
+        comunidade = next((c for c in comunidades if c['id'] == id), None)
+        
+        if not comunidade:
+            return jsonify({'erro': 'Comunidade não encontrada'}), 404
+            
+        # Buscar nome do criador
+        usuarios = carregar_usuarios()
+        criador_email = comunidade.get('criador')
+        criador_nome = criador_email # Default é o email se não achar nome
+        
+        if criador_email:
+            # Tentar achar por email exato
+            if criador_email in usuarios:
+                criador_nome = usuarios[criador_email].get('nome', criador_email)
+            else:
+                # Tentar achar case-insensitive se necessário (chaves são emails)
+                for email, user in usuarios.items():
+                    if email.lower() == criador_email.lower():
+                        criador_nome = user.get('nome', criador_email)
+                        break
+        
+        # Adicionar campo extra
+        comunidade['criador_nome'] = criador_nome
+        
+        return jsonify(comunidade), 200
+        
+    except Exception as e:
+        print(f"❌ Erro ao buscar comunidade: {str(e)}")
+        return jsonify({'erro': str(e)}), 500
+
 
 
 # ================ INICIAR SERVIDOR ================

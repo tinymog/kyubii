@@ -363,8 +363,13 @@ window.carregarJogos = function () {
 
     console.log(`✅ Renderizando ${biblioteca.length} jogos`);
 
-    // Carregar favoritos do usuário
-    const favoritos = carregarFavoritos(usuario.id);
+    // Carregar favoritos do usuário (usar sistema global se possível)
+    let favoritos = [];
+    if (typeof favoritesSystem !== 'undefined' && favoritesSystem.favoritos) {
+        favoritos = favoritesSystem.favoritos;
+    } else {
+        favoritos = carregarFavoritos(usuario.id);
+    }
 
     let html = `<div class="jogos-grid">`;
     biblioteca.forEach(jogo => {
@@ -453,30 +458,52 @@ window.salvarFavoritos = function (userId, favoritos) {
     console.log('💾 Favoritos salvos:', favoritos.length);
 };
 
-window.toggleFavorito = function (appid, userId) {
-    let favoritos = carregarFavoritos(userId);
-    const index = favoritos.indexOf(appid);
+window.toggleFavorito = async function (appid, userId) {
+    console.log(`🔄 Toggle favorito na biblioteca do perfil: ${appid}`);
 
-    if (index >= 0) {
-        // Remover dos favoritos
-        favoritos.splice(index, 1);
-        console.log('❌ Removido dos favoritos:', appid);
+    // Usar sistema global se disponível
+    if (typeof favoritesSystem !== 'undefined') {
+        const usuario = auth.getUsuarioLogado();
+        if (usuario) {
+            const added = await favoritesSystem.toggleFavorite(usuario.email, appid);
+
+            // Atualizar botão visualmente
+            const btn = document.getElementById(`fav-${appid}`);
+            if (btn) {
+                btn.innerHTML = added ? '⭐' : '☆';
+                btn.className = added ? 'btn-favoritar favoritado' : 'btn-favoritar';
+                btn.style.background = added ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
+                btn.style.borderColor = added ? '#ffd700' : '#7e30ff';
+            }
+
+            // Forçar atualização da seção de favoritos
+            const perfilFavoritosInstance = window.perfilFavoritosInstance;
+            if (perfilFavoritosInstance) {
+                await perfilFavoritosInstance.carregarFavoritos();
+            }
+        }
     } else {
-        // Adicionar aos favoritos
-        favoritos.push(appid);
-        console.log('⭐ Adicionado aos favoritos:', appid);
-    }
+        // Fallback legado (apenas se sistema global falhar)
+        let favoritos = carregarFavoritos(userId);
+        const index = favoritos.indexOf(appid);
 
-    salvarFavoritos(userId, favoritos);
+        if (index >= 0) {
+            favoritos.splice(index, 1);
+        } else {
+            favoritos.push(appid);
+        }
 
-    // Atualizar visual do botão
-    const btn = document.getElementById(`fav-${appid}`);
-    if (btn) {
-        const isFavorito = favoritos.includes(appid);
-        btn.innerHTML = isFavorito ? '⭐' : '☆';
-        btn.className = isFavorito ? 'btn-favoritar favoritado' : 'btn-favoritar';
-        btn.style.background = isFavorito ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
-        btn.style.borderColor = isFavorito ? '#ffd700' : '#7e30ff';
+        salvarFavoritos(userId, favoritos);
+
+        // Atualizar botão
+        const btn = document.getElementById(`fav-${appid}`);
+        if (btn) {
+            const isFavorito = favoritos.includes(appid);
+            btn.innerHTML = isFavorito ? '⭐' : '☆';
+            btn.className = isFavorito ? 'btn-favoritar favoritado' : 'btn-favoritar';
+            btn.style.background = isFavorito ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
+            btn.style.borderColor = isFavorito ? '#ffd700' : '#7e30ff';
+        }
     }
 };
 
@@ -630,3 +657,17 @@ function abrirModalPerfil(usuario) {
         }
     });
 }
+
+// Escutar atualizações globais de favoritos para atualizar estrelas na biblioteca
+document.addEventListener('favoritesUpdated', (e) => {
+    const { appid, added } = e.detail;
+    console.log(`🔄 Atualizando estrela na biblioteca do perfil: ${appid} -> ${added}`);
+
+    const btn = document.getElementById(`fav-${appid}`);
+    if (btn) {
+        btn.innerHTML = added ? '⭐' : '☆';
+        btn.className = added ? 'btn-favoritar favoritado' : 'btn-favoritar';
+        btn.style.background = added ? 'rgba(126, 48, 255, 0.5)' : 'rgba(0, 0, 0, 0.7)';
+        btn.style.borderColor = added ? '#ffd700' : '#7e30ff';
+    }
+});

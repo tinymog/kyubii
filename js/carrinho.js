@@ -34,6 +34,9 @@ class Carrinho {
     this.salvarNoStorage();
     this.renderizar();
     this.atualizarResumo();
+
+    // ✅ NOVO: Disparar evento global
+    document.dispatchEvent(new CustomEvent('cartUpdated'));
   }
 
   removerItem(id) {
@@ -41,6 +44,9 @@ class Carrinho {
     this.salvarNoStorage();
     this.renderizar();
     this.atualizarResumo();
+
+    // ✅ NOVO: Disparar evento global
+    document.dispatchEvent(new CustomEvent('cartUpdated'));
   }
 
   atualizarQuantidade(id, quantidade) {
@@ -50,6 +56,9 @@ class Carrinho {
       this.salvarNoStorage();
       this.renderizar();
       this.atualizarResumo();
+
+      // ✅ NOVO: Disparar evento global
+      document.dispatchEvent(new CustomEvent('cartUpdated'));
     }
   }
 

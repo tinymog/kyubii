@@ -120,11 +120,18 @@ body {
     border-radius: 50%;
     width: 20px;
     height: 20px;
-    display: flex;
+    display: flex !important;
+    /* Força display flex sempre */
     align-items: center;
     justify-content: center;
     font-size: 0.75rem;
     font-weight: bold;
+    line-height: 1;
+    /* ✅ Centralização garantida */
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .ic-usr {

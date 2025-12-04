@@ -76,20 +76,25 @@ class ComunidadeDetalhes {
         if (infoTipo) infoTipo.textContent = this.comunidade.tipo || 'Geral';
         const infoCriador = document.getElementById('info-criador');
         if (infoCriador) {
-            // Buscar nome do criador no localStorage
-            const usuarios = JSON.parse(localStorage.getItem('usuarios') || '{}');
-            const criadorEmail = this.comunidade.criador;
-            let criadorNome = criadorEmail; // Fallback para email
+            // Buscar nome do criador no backend (Flask)
+            fetch(`/api/comunidades/${this.comunidade.id}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Erro na API');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.criador_nome) {
+                        infoCriador.textContent = data.criador_nome;
+                    } else {
+                        infoCriador.textContent = this.comunidade.criador;
+                    }
+                })
+                .catch(err => {
+                    console.error('❌ Erro ao buscar criador:', err);
+                    // Fallback: mostrar email
+                    infoCriador.textContent = this.comunidade.criador;
+                });
 
-            // Procurar o usuário criador
-            for (const userId in usuarios) {
-                if (usuarios[userId].email === criadorEmail) {
-                    criadorNome = `@${usuarios[userId].nome}`;
-                    break;
-                }
-            }
-
-            infoCriador.textContent = criadorNome;
             infoCriador.style.color = '#c699ff'; // Destacar com cor roxa
             infoCriador.style.fontWeight = '600';
         }
